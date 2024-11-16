@@ -1,40 +1,44 @@
 using InsuranceClaimSystem.Data;
+using InsuranceClaimSystem.Extensions;
 using InsuranceClaimSystem.Mappings;
 using InsuranceClaimSystem.Models;
 using InsuranceClaimSystem.Repositories;
-using InsuranceClaimSystem.Services;
+using InsuranceClaimSystem.Services.Auth;
+using InsuranceClaimSystem.Services.Claim;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// =============================
+// Add services to the container
+// =============================
 
-// Adding EF Core with SQL Server
-//builder.Services.AddDbContext<AppDbContext>(options =>
-//    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+// Add in-memory database service
+builder.Services.AddDatabaseService();
 
-// Add DbContext with In-Memory database
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseInMemoryDatabase("InMemoryDb"));
+// Add identity service
+builder.Services.AddIdentityService();
 
-// Adding Identity services
-builder.Services.AddIdentity<AppUser, IdentityRole>()
-    .AddEntityFrameworkStores<AppDbContext>()
-    .AddDefaultTokenProviders();
+// Add swagger
+builder.Services.AddSwaggerService();
+
+// Add jwt service
+builder.Services.AddJwtService(builder.Configuration);
 
 // Adding Auto mapper
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 // Dependency injection
+builder.Services.AddScoped<IAuthService, AuthService>();
+
 builder.Services.AddScoped<IClaimRepository, ClaimRepository>();
 builder.Services.AddScoped<IClaimService, ClaimService>();
 
-
 builder.Services.AddControllers();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+//builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
@@ -51,6 +55,10 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+// =============================
+// Seeder
+// =============================
 
 // Seed roles and users
 using (var scope = app.Services.CreateScope())

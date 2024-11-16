@@ -1,4 +1,4 @@
-﻿namespace InsuranceClaimSystem.Services
+﻿namespace InsuranceClaimSystem.Services.Claim
 {
     public interface IClaimService
     {

@@ -36,6 +36,17 @@ builder.Services.AddApiBehaviorOptions();
 // Add HttpContextAccessor
 builder.Services.AddHttpContextAccessor();
 
+// Add CORS services
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
+
 // Dependency injection
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUserService, UserService>();
@@ -77,6 +88,11 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+// ===============
+// Allow cors
+// ===============
+app.UseCors("AllowAll");
 
 app.UseAuthentication();
 app.UseAuthorization();

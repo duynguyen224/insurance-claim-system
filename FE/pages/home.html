@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Insurance Claim System</title>
+
+  <link rel="stylesheet" href="/libs/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/common.css">
+</head>
+
+<body>
+  <div class="container">
+    <header class="shadow-sm d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+      <div class="col-md-3 mb-2 mb-md-0">
+        <a href="/pages/home.html" class="align-items-center text-dark text-decoration-none">
+          <img src="/img/logo.png" alt="Logo" width="80">
+        </a>
+      </div>
+
+      <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+        <li><a href="#" class="nav-link px-2 link-dark btnMakeClaim">Send claim</a></li>
+        <li><a href="#" class="nav-link px-2 link-dark btnMyClaim">My claims</a></li>
+        <li><a href="#" class="nav-link px-2 link-dark btnMyClaim">Claims management</a></li>
+      </ul>
+
+      <div class="col-md-3 text-end">
+        <div class="d-flex justify-content-end align-items-center gap-2">
+          <span>Hello, Bro</span>
+          <a href="#sectionLogin" type="button" class="btn btn-outline-primary me-2 btnLogin">Login</a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Section login -->
+    <section id="sectionLogin" class="d-flex justify-content-center">
+      <div class="card w-50 shadow-sm">
+        <div class="card-header text-center fw-bold fs-3">
+          Login
+        </div>
+        <div class="card-body">
+          <form id="formLogin">
+            <div class="mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input type="email" class="form-control" id="email" name="email">
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input type="password" class="form-control" id="password" name="password">
+            </div>
+            <div class="text-center">
+              <button type="submit" class="btn btn-primary">Login</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section Send claim -->
+    <section id="sectionMakeClaim" class="d-flex justify-content-center mt-5">
+      <div class="card w-50 shadow-sm">
+        <div class="card-header text-center fw-bold fs-3">
+          Send claim
+        </div>
+        <div class="card-body">
+          <form id="formSendClaim">
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Email address</label>
+              <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label">Password</label>
+              <input type="password" class="form-control" id="exampleInputPassword1">
+            </div>
+            <div class="text-center">
+              <button type="submit" class="btn btn-primary">Send</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section my claims -->
+    <section id="sectionMyClaims">
+      <div class="text-center">
+        <h3>My claims</h3>
+      </div>
+    </section>
+
+    <!-- Section claims management -->
+    <section id="sectionClaimManagement">
+      <div class="text-center">
+        <h3>Claims management</h3>
+      </div>
+    </section>
+  </div>
+
+  <script type="text/javascript" src="/libs/bootstrap/bootstrap.min.js"></script>
+  <script type="text/javascript" src="/libs/jquery/jquery.min.js"></script>
+  <script type="text/javascript" src="/libs/jquery-validation/jquery-validation.js"></script>
+  <script type="text/javascript" src="/js/common.js"></script>
+  <script type="text/javascript" src="/js/home.js"></script>
+
+  <script type="text/javascript" src="/js/form-login.js"></script>
+  <script type="text/javascript" src="/js/form-send-claim.js"></script>
+</body>
+
+</html>

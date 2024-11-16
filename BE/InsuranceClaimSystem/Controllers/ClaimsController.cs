@@ -1,4 +1,5 @@
-﻿using InsuranceClaimSystem.Constants;
+﻿using InsuranceClaimSystem.DTOs.Claim.Request;
+using InsuranceClaimSystem.Services.Claim;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,22 +10,50 @@ namespace InsuranceClaimSystem.Controllers
     //[Authorize]
     public class ClaimsController : ControllerBase
     {
-        public ClaimsController()
-        {
+        private readonly IClaimService _claimService;
 
+        public ClaimsController(IClaimService claimService)
+        {
+            _claimService = claimService;
         }
 
-        [HttpGet("/api/public/insurance-claims")]
-        public IActionResult UnAuthIndex()
+        [HttpGet]
+        public IActionResult Get([FromQuery] GetClaimRequest request)
         {
-            return Ok("UnAuthIndex");
+            return Ok("get");
         }
 
-        [HttpGet("")]
-        [Authorize(Roles = Roles.ROLE_ADMIN)]
-        public IActionResult AuthIndex()
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> Post([FromBody] UpSertClaimRequest request)
         {
-            return Ok("AuthIndex");
+            var res = await _claimService.CreateClaimAsync(request);
+
+            return Ok(res);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put([FromRoute] string id, [FromBody] UpSertClaimRequest request)
+        {
+            var res = await _claimService.UpdateClaimAsync(id, request);
+
+            return Ok(res);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete([FromRoute] string id)
+        {
+            var res = await _claimService.DeleteClaimAsync(id);
+
+            return Ok(res);
+        }
+
+        [HttpPut("{id}/process")]
+        public async Task<IActionResult> Process([FromRoute] string id)
+        {
+            var res = await _claimService.ProcessClaimAsync(id);
+
+            return Ok(res);
         }
     }
 }

@@ -44,22 +44,25 @@ namespace InsuranceClaimSystem.Data
             }
 
             // Create User
-            var userEmail = "user@gmail.com";
-            if (await userManager.FindByEmailAsync(userEmail) == null)
+            string[] userEmails = { "user01@gmail.com", "user02@gmail.com", "user03@gmail.com" };
+            foreach (var userEmail in userEmails)
             {
-                var normalUser = new AppUser
+                if (await userManager.FindByEmailAsync(userEmail) == null)
                 {
-                    FullName = "Duy User",
-                    UserName = "user",
-                    Email = userEmail,
-                    EmailConfirmed = true
-                };
-                var userPassword = "User@123";
+                    var normalUser = new AppUser
+                    {
+                        FullName = "User " + userEmail,
+                        UserName = userEmail,
+                        Email = userEmail,
+                        EmailConfirmed = true
+                    };
+                    var userPassword = "User@123";
 
-                var createUserResult = await userManager.CreateAsync(normalUser, userPassword);
-                if (createUserResult.Succeeded)
-                {
-                    await userManager.AddToRoleAsync(normalUser, Roles.ROLE_USER);
+                    var createUserResult = await userManager.CreateAsync(normalUser, userPassword);
+                    if (createUserResult.Succeeded)
+                    {
+                        await userManager.AddToRoleAsync(normalUser, Roles.ROLE_USER);
+                    }
                 }
             }
         }

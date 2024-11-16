@@ -1,4 +1,5 @@
-﻿using InsuranceClaimSystem.DTOs.Auth;
+﻿using InsuranceClaimSystem.DTOs;
+using InsuranceClaimSystem.DTOs.Auth;
 using InsuranceClaimSystem.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
@@ -21,18 +22,45 @@ namespace InsuranceClaimSystem.Services.Auth
             _configuration = configuration;
         }
 
-        public async Task<string> LoginAsync(LoginRequest request)
+        public async Task<ApiResponse<object>> LoginAsync(LoginRequest request)
         {
+            var res = new ApiResponse<object>.Builder()
+                .SetStatusCode(StatusCodes.Status401Unauthorized)
+                .SetMessage("Invalid credentials");
+
             // Find the user
             var user = await _userManager.FindByEmailAsync(request.Email);
-            if (user == null) return null;
+            if (user == null)
+            {
+                return res.Build();
+            }
 
             // Verify the password
             var result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
-            if (!result.Succeeded) return null;
+            if (!result.Succeeded)
+            {
+                return res.Build();
+            }
 
             // Generate the token
-            return await GenerateJwtToken(user);
+            string token = await GenerateJwtToken(user);
+            var objectRespones = new
+            {
+                User = new
+                {
+                    FullName = user.FullName,
+                    UserName = user.UserName,
+                    Email = user.Email,
+                    Roles = await _userManager.GetRolesAsync(user)
+                },
+                Token = token
+            };
+
+            return res.SetIsSuccess(true)
+                        .SetStatusCode(StatusCodes.Status200OK)
+                        .SetMessage("Login successfully")
+                        .SetData(objectRespones)
+                        .Build();
         }
 
         private async Task<string> GenerateJwtToken(AppUser user)

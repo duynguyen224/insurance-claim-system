@@ -1,9 +1,10 @@
-﻿using InsuranceClaimSystem.DTOs.Auth;
+﻿using InsuranceClaimSystem.DTOs;
+using InsuranceClaimSystem.DTOs.Auth;
 
 namespace InsuranceClaimSystem.Services.Auth
 {
     public interface IAuthService
     {
-        Task<string> LoginAsync(LoginRequest request);
+        Task<ApiResponse<object>> LoginAsync(LoginRequest request);
     }
 }

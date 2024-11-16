@@ -34,7 +34,6 @@ builder.Services.AddApiBehaviorOptions();
 
 // Dependency injection
 builder.Services.AddScoped<IAuthService, AuthService>();
-
 builder.Services.AddScoped<IClaimRepository, ClaimRepository>();
 builder.Services.AddScoped<IClaimService, ClaimService>();
 

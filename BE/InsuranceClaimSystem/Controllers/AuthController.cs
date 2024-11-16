@@ -18,14 +18,9 @@ namespace InsuranceClaimSystem.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
-            var token = await _authService.LoginAsync(request);
+            var res = await _authService.LoginAsync(request);
 
-            if (token == null)
-            {
-                return Unauthorized("Invalid email or password");
-            }
-
-            return Ok(token);
+            return Ok(res);
         }
     }
 }

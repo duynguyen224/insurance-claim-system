@@ -13,7 +13,6 @@ namespace InsuranceClaimSystem.Services.Claim
     {
         private readonly IUserService _userService;
         private readonly IClaimRepository _claimRepository;
-        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IMapper _mapper;
 
         public ClaimService(IUserService userService,
@@ -23,132 +22,117 @@ namespace InsuranceClaimSystem.Services.Claim
         {
             _userService = userService;
             _claimRepository = claimRepository;
-            _httpContextAccessor = httpContextAccessor;
             _mapper = mapper;
         }
 
         public async Task<ApiResponse<ClaimResponse>> CreateClaimAsync(UpSertClaimRequest request)
         {
-            var res = new ApiResponse<ClaimResponse>.Builder();
-
-            ClaimModel claim = new ClaimModel();
-            claim.CustomerName = request.CustomerName;
-            claim.Amount = request.Amount;
-            claim.Description = request.Description;
-            claim.Status = ClaimStatus.Pending;
-            claim.SubmitDate = DateTime.Now;
-            claim.UserId = _userService.GetUserId();
+            var claim = new ClaimModel
+            {
+                CustomerName = request.CustomerName,
+                Amount = request.Amount,
+                Description = request.Description,
+                Status = ClaimStatus.Pending,
+                SubmitDate = DateTime.Now,
+                UserId = _userService.GetUserId()
+            };
 
             claim = await _claimRepository.CreateClaimAsync(claim);
 
             var claimResponse = _mapper.Map<ClaimResponse>(claim);
 
-            res = res.SetIsSuccess(true)
-                .SetStatusCode(StatusCodes.Status201Created)
-                .SetMessage("Create claim successfully")
-                .SetData(claimResponse);
-
-            return res.Build();
+            return ApiResponse<ClaimResponse>.BuildResponse(
+                StatusCodes.Status201Created,
+                "Create claim successfully",
+                claimResponse
+            );
         }
 
         public async Task<ApiResponse<ClaimResponse>> GetClaimByIdAsync(string id)
         {
-            var res = new ApiResponse<ClaimResponse>.Builder();
-
-            var claim = await _claimRepository.GetClaimByIdAsync(Guid.Parse(id));
-
-            if (claim != null)
-            {
-                res = res.SetIsSuccess(true)
-                    .SetStatusCode(StatusCodes.Status200OK)
-                    .SetMessage("Get claim by id successfully")
-                    .SetData(_mapper.Map<ClaimResponse>(claim));
-            }
-            else
-            {
-                res = res.SetStatusCode(StatusCodes.Status400BadRequest)
-                    .SetMessage("Claim not found");
-            }
-
-            return res.Build();
+            var claim = await GetClaimOrError(id);
+            return claim == null ? BuildErrorResponse("Claim not found", StatusCodes.Status400BadRequest) : BuildApiResponse(claim, "Get claim by id successfully", StatusCodes.Status200OK);
         }
 
         public async Task<ApiResponse<IEnumerable<ClaimResponse>>> GetClaimsByStatusAsync(ClaimStatus status)
         {
-            var res = new ApiResponse<IEnumerable<ClaimResponse>>.Builder();
+            var claims = await _claimRepository.GetClaimsByStatusAsync(status);
 
-            return res.Build();
+            if (claims == null || !claims.Any())
+            {
+                return ApiResponse<IEnumerable<ClaimResponse>>.BuildErrorResponse(
+                    StatusCodes.Status404NotFound,
+                    "No claims found for the given status"
+                );
+            }
+
+            var claimResponses = _mapper.Map<IEnumerable<ClaimResponse>>(claims);
+
+            return ApiResponse<IEnumerable<ClaimResponse>>.BuildResponse(
+                StatusCodes.Status200OK,
+                "Claims retrieved successfully",
+                claimResponses
+            );
         }
 
         public async Task<ApiResponse<ClaimResponse>> UpdateClaimAsync(string id, UpSertClaimRequest request)
         {
-            var res = new ApiResponse<ClaimResponse>.Builder();
+            var claim = await GetClaimOrError(id);
 
-            var getClaimResponse = await GetClaimByIdAsync(id);
-
-            // If claim not found, then return
-            if (!getClaimResponse.IsSuccess)
+            if (claim == null)
             {
-                return getClaimResponse;
+                return ApiResponse<ClaimResponse>
+                        .BuildErrorResponse(StatusCodes.Status404NotFound, "Claim not found");
             }
 
-            // Else
-            var claim = await _claimRepository.GetClaimByIdAsync(Guid.Parse(id));
             claim.CustomerName = request.CustomerName;
             claim.Amount = request.Amount;
             claim.Description = request.Description;
 
             claim = await _claimRepository.UpdateClaimAsync(claim);
 
-            res = res.SetIsSuccess(true)
-                .SetStatusCode(StatusCodes.Status200OK)
-                .SetMessage("Update claim successfully")
-                .SetData(_mapper.Map<ClaimResponse>(claim));
+            var claimResponse = _mapper.Map<ClaimResponse>(claim);
 
-            return res.Build();
+            return ApiResponse<ClaimResponse>.BuildResponse(
+                StatusCodes.Status200OK,
+                "Update claim successfully",
+                claimResponse
+            );
         }
 
         public async Task<ApiResponse<ClaimResponse>> DeleteClaimAsync(string id)
         {
-            var res = new ApiResponse<ClaimResponse>.Builder();
+            var claim = await GetClaimOrError(id);
 
-            var getClaimResponse = await GetClaimByIdAsync(id);
-
-            // If claim not found, then return
-            if (!getClaimResponse.IsSuccess)
+            if (claim == null)
             {
-                return getClaimResponse;
+                return ApiResponse<ClaimResponse>
+                        .BuildErrorResponse(StatusCodes.Status404NotFound, "Claim not found");
             }
-
-            // Else
-            var claim = await _claimRepository.GetClaimByIdAsync(Guid.Parse(id));
 
             await _claimRepository.DeleteClaimAsync(claim);
 
-            res = res.SetIsSuccess(true)
-                        .SetStatusCode(StatusCodes.Status200OK)
-                        .SetMessage("Delete claim successfully")
-                        .SetData(_mapper.Map<ClaimResponse>(claim));
+            var claimResponse = _mapper.Map<ClaimResponse>(claim);
 
-            return res.Build();
+            return ApiResponse<ClaimResponse>.BuildResponse(
+                StatusCodes.Status200OK,
+                "Delete claim successfully",
+                claimResponse
+            );
         }
 
         public async Task<ApiResponse<ClaimResponse>> ProcessClaimAsync(string id)
         {
-            var res = new ApiResponse<ClaimResponse>.Builder();
+            var claim = await GetClaimOrError(id);
 
-            var getClaimResponse = await GetClaimByIdAsync(id);
-
-            // If claim not found, then return
-            if (!getClaimResponse.IsSuccess)
+            if (claim == null)
             {
-                return getClaimResponse;
+                return ApiResponse<ClaimResponse>
+                        .BuildErrorResponse(StatusCodes.Status404NotFound, "Claim not found");
             }
 
-            // Else
             var random = new Random();
 
-            var claim = await _claimRepository.GetClaimByIdAsync(Guid.Parse(id));
             claim.Status = (ClaimStatus)random.Next(
                                                     (int)ClaimStatus.Approved,
                                                     (int)ClaimStatus.Rejected + 1
@@ -156,12 +140,19 @@ namespace InsuranceClaimSystem.Services.Claim
 
             claim = await _claimRepository.UpdateClaimAsync(claim);
 
-            res = res.SetIsSuccess(true)
-                .SetStatusCode(StatusCodes.Status200OK)
-                .SetMessage("Process claim successfully")
-                .SetData(_mapper.Map<ClaimResponse>(claim));
+            var claimResponse = _mapper.Map<ClaimResponse>(claim);
 
-            return res.Build();
+            return ApiResponse<ClaimResponse>.BuildResponse(
+                StatusCodes.Status200OK,
+                "Process claim successfully",
+                claimResponse
+            );
+        }
+
+        // Helper Methods
+        private async Task<ClaimModel> GetClaimOrError(string id)
+        {
+            return await _claimRepository.GetClaimByIdAsync(Guid.Parse(id));
         }
     }
 }

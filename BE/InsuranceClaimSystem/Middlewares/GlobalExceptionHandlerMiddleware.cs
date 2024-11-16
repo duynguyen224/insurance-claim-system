@@ -31,11 +31,12 @@ namespace InsuranceClaimSystem.Middlewares
                                     { "Exceptions", new List<string> { exception.Message } }
                                 };
 
-            var response = new ApiResponse<object>.Builder()
-                .SetStatusCode(StatusCodes.Status500InternalServerError)
-                .SetMessage("An unexpected error occurred.")
-                .SetErrors(errors)
-                .Build();
+            var response = ApiResponse<object>
+                    .BuildErrorResponse(
+                        statusCode: StatusCodes.Status500InternalServerError,
+                        message: "An unexpected error occurred.",
+                        errors: errors
+                    );
 
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = StatusCodes.Status500InternalServerError;

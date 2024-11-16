@@ -15,6 +15,7 @@ namespace InsuranceClaimSystem.Services.Auth
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly IConfiguration _configuration;
+
         public AuthService(UserManager<AppUser> userManager,
             SignInManager<AppUser> signInManager,
             IConfiguration configuration)
@@ -26,27 +27,30 @@ namespace InsuranceClaimSystem.Services.Auth
 
         public async Task<ApiResponse<object>> LoginAsync(LoginRequest request)
         {
-            var res = new ApiResponse<object>.Builder()
-                .SetStatusCode(StatusCodes.Status401Unauthorized)
-                .SetMessage("Invalid credentials");
-
-            // Find the user
+            // Find the user by email
             var user = await _userManager.FindByEmailAsync(request.Email);
             if (user == null)
             {
-                return res.Build();
+                return ApiResponse<object>.BuildErrorResponse(
+                    StatusCodes.Status401Unauthorized,
+                    "Invalid credentials"
+                );
             }
 
             // Verify the password
             var result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
             if (!result.Succeeded)
             {
-                return res.Build();
+                return ApiResponse<object>.BuildErrorResponse(
+                    StatusCodes.Status401Unauthorized,
+                    "Invalid credentials"
+                );
             }
 
-            // Generate the token
+            // Generate JWT token
             string token = await GenerateJwtToken(user);
-            var objectRespones = new
+
+            var dataResponse = new
             {
                 User = new
                 {
@@ -58,11 +62,12 @@ namespace InsuranceClaimSystem.Services.Auth
                 Token = token
             };
 
-            return res.SetIsSuccess(true)
-                        .SetStatusCode(StatusCodes.Status200OK)
-                        .SetMessage("Login successfully")
-                        .SetData(objectRespones)
-                        .Build();
+            // Return success response with user data and token
+            return ApiResponse<object>.BuildResponse(
+                StatusCodes.Status200OK,
+                "Login successfully",
+                dataResponse
+            );
         }
 
         private async Task<string> GenerateJwtToken(AppUser user)
@@ -82,7 +87,7 @@ namespace InsuranceClaimSystem.Services.Auth
             var roles = await _userManager.GetRolesAsync(user);
             claims.AddRange(roles.Select(role => new SecurityClaim(ClaimTypes.Role, role)));
 
-            // Generate the token
+            // Generate the JWT token
             var key = new SymmetricSecurityKey(secretKey);
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 

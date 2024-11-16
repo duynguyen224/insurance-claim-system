@@ -24,11 +24,12 @@ namespace InsuranceClaimSystem.Extensions
                             entry => entry.Value.Errors.Select(e => e.ErrorMessage).ToList()
                         );
 
-                    var response = new ApiResponse<object>.Builder()
-                    .SetStatusCode(StatusCodes.Status400BadRequest)
-                    .SetMessage("Invalid request data")
-                    .SetErrors(errors)
-                    .Build();
+                    var response = ApiResponse<object>
+                                        .BuildErrorResponse(
+                                            statusCode: StatusCodes.Status400BadRequest,
+                                            message: "Invalid request data",
+                                            errors: errors
+                                        );
 
                     return new BadRequestObjectResult(response)
                     {

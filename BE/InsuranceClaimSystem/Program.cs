@@ -39,7 +39,7 @@ builder.Services.AddScoped<IClaimRepository, ClaimRepository>();
 builder.Services.AddScoped<IClaimService, ClaimService>();
 
 builder.Services.AddControllers()
-                .AddJsonOptions(options => { options.JsonSerializerOptions.PropertyNamingPolicy = null; } );
+                .AddJsonOptions(options => { options.JsonSerializerOptions.PropertyNamingPolicy = null; });
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -50,20 +50,6 @@ var app = builder.Build();
 // Middleware
 // ===============
 app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-
-app.UseHttpsRedirection();
-
-app.UseAuthentication();
-app.UseAuthorization();
-
-app.MapControllers();
 
 // ===============
 // Database Seeder
@@ -78,5 +64,19 @@ using (var scope = app.Services.CreateScope())
 
     await DataSeeder.SeedAsync(userManager, roleManager);
 }
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+app.UseHttpsRedirection();
+
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.MapControllers();
 
 app.Run();

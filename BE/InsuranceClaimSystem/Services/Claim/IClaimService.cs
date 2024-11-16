@@ -11,7 +11,7 @@ namespace InsuranceClaimSystem.Services.Claim
         Task<ApiResponse<ClaimResponse>> GetClaimByIdAsync(string id);
         Task<ApiResponse<IEnumerable<ClaimResponse>>> GetClaimsByStatusAsync(ClaimStatus status);
         Task<ApiResponse<ClaimResponse>> UpdateClaimAsync(string id, UpSertClaimRequest request);
-        Task<ApiResponse<bool>> DeleteClaimAsync(string id);
-        Task<ApiResponse<bool>> ProcessClaimAsync(string id);
+        Task<ApiResponse<ClaimResponse>> DeleteClaimAsync(string id);
+        Task<ApiResponse<ClaimResponse>> ProcessClaimAsync(string id);
     }
 }

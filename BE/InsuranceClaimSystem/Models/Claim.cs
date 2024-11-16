@@ -9,13 +9,16 @@ namespace InsuranceClaimSystem.Models
         public Guid Id { get; set; }
 
         [Required]
+        [MaxLength(50)]
         public string CustomerName { get; set; }
 
         [Required]
         [Column(TypeName = "decimal(18,2)")]
+        [Range(0.0, int.MaxValue)]
         public decimal Amount { get; set; }
 
         [Required]
+        [MaxLength(255)]
         public string Description { get; set; }
 
         [Required]

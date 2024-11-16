@@ -7,7 +7,7 @@ namespace InsuranceClaimSystem.Controllers
 {
     [Route("api/insurance-claims")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class ClaimsController : ControllerBase
     {
         private readonly IClaimService _claimService;
@@ -18,9 +18,17 @@ namespace InsuranceClaimSystem.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get([FromQuery] GetClaimRequest request)
+        public async Task<IActionResult> Get([FromQuery] GetClaimRequest request)
         {
             return Ok("get");
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get([FromRoute] string id)
+        {
+            var res = await _claimService.GetClaimByIdAsync(id);
+
+            return Ok(res);
         }
 
         [HttpPost]
@@ -49,6 +57,7 @@ namespace InsuranceClaimSystem.Controllers
         }
 
         [HttpPut("{id}/process")]
+        [Authorize(Roles = Constants.Roles.ROLE_ADMIN)]
         public async Task<IActionResult> Process([FromRoute] string id)
         {
             var res = await _claimService.ProcessClaimAsync(id);

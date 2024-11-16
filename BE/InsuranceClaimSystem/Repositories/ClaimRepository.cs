@@ -30,10 +30,11 @@ namespace InsuranceClaimSystem.Repositories
             return await _context.Claims.Where(x => x.Status == status).ToListAsync();
         }
 
-        public async Task UpdateClaimAsync(Claim claim)
+        public async Task<Claim> UpdateClaimAsync(Claim claim)
         {
             _context.Claims.Update(claim);
             await _context.SaveChangesAsync();
+            return claim;
         }
 
         public async Task DeleteClaimAsync(Claim claim)

@@ -40,7 +40,7 @@ namespace InsuranceClaimSystem.Extensions
                         // Handle 401 Unauthorized errors
                         var response = new ApiResponse<object>.Builder()
                             .SetStatusCode(StatusCodes.Status401Unauthorized)
-                            .SetMessage("Unauthorized.")
+                            .SetMessage("Unauthorized. Please login to access this resource.")
                             .SetIsSuccess(false)
                             .Build();
 
@@ -57,7 +57,7 @@ namespace InsuranceClaimSystem.Extensions
                         // Handle 403 Forbidden errors
                         var response = new ApiResponse<object>.Builder()
                             .SetStatusCode(StatusCodes.Status403Forbidden)
-                            .SetMessage("Access denied.")
+                            .SetMessage("Access denied. You don't have permission to perform this action.")
                             .Build();
 
                         // Set the response content type and status code

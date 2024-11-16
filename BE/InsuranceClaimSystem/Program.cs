@@ -6,6 +6,7 @@ using InsuranceClaimSystem.Models;
 using InsuranceClaimSystem.Repositories;
 using InsuranceClaimSystem.Services.Auth;
 using InsuranceClaimSystem.Services.Claim;
+using InsuranceClaimSystem.Services.User;
 using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -32,8 +33,12 @@ builder.Services.AddAutoMapper(typeof(MappingProfile));
 // Add api behavior options
 builder.Services.AddApiBehaviorOptions();
 
+// Add HttpContextAccessor
+builder.Services.AddHttpContextAccessor();
+
 // Dependency injection
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IClaimRepository, ClaimRepository>();
 builder.Services.AddScoped<IClaimService, ClaimService>();
 

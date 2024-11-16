@@ -50,7 +50,7 @@ namespace InsuranceClaimSystem.Services.Auth
             // Generate JWT token
             string token = await GenerateJwtToken(user);
 
-            var dataResponse = new
+            var dataResponse = new 
             {
                 User = new
                 {

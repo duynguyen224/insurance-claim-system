@@ -24,6 +24,9 @@ namespace InsuranceClaimSystem.Extensions
                     },
                 });
 
+                var filePath = Path.Combine(System.AppContext.BaseDirectory, "InsuranceClaimSystem.xml");
+                cfg.IncludeXmlComments(filePath);
+
                 cfg.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     In = ParameterLocation.Header,

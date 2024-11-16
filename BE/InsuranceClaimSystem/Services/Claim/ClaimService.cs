@@ -102,6 +102,12 @@ namespace InsuranceClaimSystem.Services.Claim
                         .BuildErrorResponse(StatusCodes.Status404NotFound, "Claim not found");
             }
 
+            if (claim.Status != ClaimStatus.Pending)
+            {
+                return ApiResponse<ClaimResponse>
+                        .BuildErrorResponse(StatusCodes.Status400BadRequest, "Can not update. Claim is already processed");
+            }
+
             claim.CustomerName = request.CustomerName;
             claim.Amount = request.Amount;
             claim.Description = request.Description;
@@ -125,6 +131,12 @@ namespace InsuranceClaimSystem.Services.Claim
             {
                 return ApiResponse<ClaimResponse>
                         .BuildErrorResponse(StatusCodes.Status404NotFound, "Claim not found");
+            }
+
+            if (claim.Status != ClaimStatus.Pending)
+            {
+                return ApiResponse<ClaimResponse>
+                        .BuildErrorResponse(StatusCodes.Status400BadRequest, "Can not delete. Claim is already processed");
             }
 
             await _claimRepository.DeleteClaimAsync(claim);

@@ -20,7 +20,9 @@ namespace InsuranceClaimSystem.Controllers
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery] GetClaimRequest request)
         {
-            return Ok("get");
+            var res = await _claimService.GetClaimsAsync(request);
+
+            return Ok(res);
         }
 
         [HttpGet("{id}")]
@@ -41,6 +43,7 @@ namespace InsuranceClaimSystem.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = Constants.Roles.ROLE_USER)]
         public async Task<IActionResult> Put([FromRoute] string id, [FromBody] UpSertClaimRequest request)
         {
             var res = await _claimService.UpdateClaimAsync(id, request);

@@ -25,6 +25,29 @@ namespace InsuranceClaimSystem.Services.Claim
             _mapper = mapper;
         }
 
+        public async Task<ApiResponse<IEnumerable<ClaimResponse>>> GetClaimsAsync(GetClaimRequest request)
+        {
+            // User can only get their claims, admin can get all claims of users
+            var userId = _userService.GetUserId();
+            var roles = _userService.GetRoles();
+            if (!string.IsNullOrWhiteSpace(userId) && !roles.Contains(Constants.Roles.ROLE_ADMIN))
+            {
+                request.UserId = userId;
+            }
+
+            var claims = await _claimRepository.GetClaimsAsync(request);
+
+            var message = claims == null || !claims.Any() ? "No claims found matching the criteria" : "Claims retrieved successfully";
+
+            var claimResponses = _mapper.Map<IEnumerable<ClaimResponse>>(claims);
+
+            return ApiResponse<IEnumerable<ClaimResponse>>.BuildResponse(
+                StatusCodes.Status200OK,
+                message,
+                claimResponses
+            );
+        }
+
         public async Task<ApiResponse<ClaimResponse>> CreateClaimAsync(UpSertClaimRequest request)
         {
             var claim = new ClaimModel
@@ -51,27 +74,21 @@ namespace InsuranceClaimSystem.Services.Claim
         public async Task<ApiResponse<ClaimResponse>> GetClaimByIdAsync(string id)
         {
             var claim = await GetClaimOrError(id);
-            return claim == null ? BuildErrorResponse("Claim not found", StatusCodes.Status400BadRequest) : BuildApiResponse(claim, "Get claim by id successfully", StatusCodes.Status200OK);
-        }
 
-        public async Task<ApiResponse<IEnumerable<ClaimResponse>>> GetClaimsByStatusAsync(ClaimStatus status)
-        {
-            var claims = await _claimRepository.GetClaimsByStatusAsync(status);
-
-            if (claims == null || !claims.Any())
+            if (claim == null)
             {
-                return ApiResponse<IEnumerable<ClaimResponse>>.BuildErrorResponse(
-                    StatusCodes.Status404NotFound,
-                    "No claims found for the given status"
+                return ApiResponse<ClaimResponse>.BuildErrorResponse(
+                    StatusCodes.Status400BadRequest,
+                    "Claim not found"
                 );
             }
 
-            var claimResponses = _mapper.Map<IEnumerable<ClaimResponse>>(claims);
+            var claimResponse = _mapper.Map<ClaimResponse>(claim);
 
-            return ApiResponse<IEnumerable<ClaimResponse>>.BuildResponse(
+            return ApiResponse<ClaimResponse>.BuildResponse(
                 StatusCodes.Status200OK,
-                "Claims retrieved successfully",
-                claimResponses
+                "Get claim by id successfully",
+                claimResponse
             );
         }
 
@@ -152,7 +169,22 @@ namespace InsuranceClaimSystem.Services.Claim
         // Helper Methods
         private async Task<ClaimModel> GetClaimOrError(string id)
         {
+            // User can only get their claims, admin can get all claims of users
+            var userId = _userService.GetUserId();
+            var roles = _userService.GetRoles();
+            if (!roles.Contains(Constants.Roles.ROLE_ADMIN) && !await IsClaimBelongsToUser(userId, id))
+            {
+                return null;
+            }
+
             return await _claimRepository.GetClaimByIdAsync(Guid.Parse(id));
+        }
+
+        private async Task<bool> IsClaimBelongsToUser(string userId, string claimId)
+        {
+            var claim = await _claimRepository.IsClaimBelongsToUser(userId, claimId);
+
+            return claim != null ? true : false;
         }
     }
 }

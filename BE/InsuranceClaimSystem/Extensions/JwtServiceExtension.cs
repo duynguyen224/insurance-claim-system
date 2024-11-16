@@ -1,6 +1,5 @@
 ﻿using InsuranceClaimSystem.DTOs;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Text.Json;
@@ -31,7 +30,6 @@ namespace InsuranceClaimSystem.Extensions
                     ClockSkew = TimeSpan.Zero,
                 };
 
-                // Customizing the 401 Unauthorized response
                 o.Events = new JwtBearerEvents
                 {
                     OnChallenge = context =>
@@ -39,7 +37,7 @@ namespace InsuranceClaimSystem.Extensions
                         // Kkip the default logic and avoid using the default response
                         context.HandleResponse();
 
-                        // Handle 401 Unauthorized errors and provide a custom response
+                        // Handle 401 Unauthorized errors
                         var response = new ApiResponse<object>.Builder()
                             .SetStatusCode(StatusCodes.Status401Unauthorized)
                             .SetMessage("Unauthorized.")
@@ -49,6 +47,22 @@ namespace InsuranceClaimSystem.Extensions
                         // Set the response content type and status code
                         context.Response.ContentType = "application/json";
                         context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+
+                        // Return the custom response
+                        return context.Response.WriteAsync(JsonSerializer.Serialize(response));
+                    },
+
+                    OnForbidden = context =>
+                    {
+                        // Handle 403 Forbidden errors
+                        var response = new ApiResponse<object>.Builder()
+                            .SetStatusCode(StatusCodes.Status403Forbidden)
+                            .SetMessage("Access denied.")
+                            .Build();
+
+                        // Set the response content type and status code
+                        context.Response.ContentType = "application/json";
+                        context.Response.StatusCode = StatusCodes.Status403Forbidden;
 
                         // Return the custom response
                         return context.Response.WriteAsync(JsonSerializer.Serialize(response));

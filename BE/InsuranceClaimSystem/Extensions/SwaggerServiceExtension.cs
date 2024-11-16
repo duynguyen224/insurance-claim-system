@@ -15,7 +15,7 @@ namespace InsuranceClaimSystem.Extensions
                     Description = "Insurance claim system APIs",
                     Contact = new OpenApiContact
                     {
-                        Name = "Nguyen Duc Duy",
+                        Name = "Nguyen Duc Duy - Github - ",
                         Url = new Uri("https://github.com/duynguyen224")
                     },
                     License = new OpenApiLicense

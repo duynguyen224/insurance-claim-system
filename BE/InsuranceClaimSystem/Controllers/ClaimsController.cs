@@ -14,13 +14,13 @@ namespace InsuranceClaimSystem.Controllers
 
         }
 
-        [HttpGet("index")]
+        [HttpGet("/api/public/insurance-claims")]
         public IActionResult UnAuthIndex()
         {
             return Ok("UnAuthIndex");
         }
 
-        [HttpGet("auth/index")]
+        [HttpGet("")]
         [Authorize(Roles = Roles.ROLE_ADMIN)]
         public IActionResult AuthIndex()
         {

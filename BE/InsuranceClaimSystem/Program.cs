@@ -1,6 +1,7 @@
 using InsuranceClaimSystem.Data;
 using InsuranceClaimSystem.Extensions;
 using InsuranceClaimSystem.Mappings;
+using InsuranceClaimSystem.Middlewares;
 using InsuranceClaimSystem.Models;
 using InsuranceClaimSystem.Repositories;
 using InsuranceClaimSystem.Services.Auth;
@@ -25,8 +26,11 @@ builder.Services.AddSwaggerService();
 // Add jwt service
 builder.Services.AddJwtService(builder.Configuration);
 
-// Adding Auto mapper
+// Add Auto mapper
 builder.Services.AddAutoMapper(typeof(MappingProfile));
+
+// Add api behavior options
+builder.Services.AddApiBehaviorOptions();
 
 // Dependency injection
 builder.Services.AddScoped<IAuthService, AuthService>();
@@ -34,13 +38,18 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IClaimRepository, ClaimRepository>();
 builder.Services.AddScoped<IClaimService, ClaimService>();
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+                .AddJsonOptions(options => { options.JsonSerializerOptions.PropertyNamingPolicy = null; } );
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-//builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+// ===============
+// Middleware
+// ===============
+app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -56,9 +65,9 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-// =============================
-// Seeder
-// =============================
+// ===============
+// Database Seeder
+// ===============
 
 // Seed roles and users
 using (var scope = app.Services.CreateScope())

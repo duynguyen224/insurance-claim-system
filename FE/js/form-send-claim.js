@@ -27,17 +27,30 @@ jQuery(function ($) {
         url: BASE_URL + CLAIM_API,
         data: JSON.stringify(formData),
         success: function (response) {
+          // Reset form
+          const formData = [
+            { name: "Amount", value: "" },
+            { name: "Description", value: "" },
+          ];
+
+          // If anonymous user, stop here
+          let token = localStorage.getItem("token");
+          token = JSON.parse(token);
+          if (isNullOrEmpty(token)) {
+            formData.push({ name: "CustomerName", value: "" });
+          }
+
+          autofillForm("#formSendClaim", formData);
+
           // Show success alert
           showAlert("#formSendClaim", response.Message, "success");
 
-          // Reload window
-          setTimeout(() => {
-            reloadWindow();
-          }, 4000);
+          // Re-fetch claims
+          fetchClaims();
         },
         error: function (error) {
           const errorResponse = error.responseJSON;
-          showServerValidationErrors('#formSendClaim', errorResponse.Errors);
+          showServerValidationErrors("#formSendClaim", errorResponse.Errors);
           showAlert("#formSendClaim", errorResponse.Message, "danger");
         },
       });

@@ -64,9 +64,21 @@ jQuery(function ($) {
 
   // Btn Process claim
   $(document).on("click", ".btnProcessClaim", function () {
-    if (confirm("The claim will be randomly approved or rejected based on a 50/50 probability. \n Do you want to continue?")) {
-      const claimId = $(this).closest('tr').attr('data-claim-id');
+    if (
+      confirm(
+        "The claim will be randomly approved or rejected based on a 50/50 probability. \n Do you want to continue?"
+      )
+    ) {
+      const claimId = $(this).closest("tr").attr("data-claim-id");
       processClaim(claimId);
+    }
+  });
+
+  // Btn Delete claim
+  $(document).on("click", ".btnDeleteClaim", function () {
+    if (confirm("Are you sure to delete this claim?")) {
+      const claimId = $(this).closest("tr").attr("data-claim-id");
+      deleteClaim(claimId);
     }
   });
 });
@@ -107,6 +119,13 @@ function initUI() {
 }
 
 function fetchClaims(userId = "", status = "", submitDate = "") {
+  // If anonymous user, stop here
+  let token = localStorage.getItem('token');
+  token = JSON.parse(token); 
+  if (isNullOrEmpty(token)) {
+    return;
+  }
+
   const request = {
     UserId: userId,
     Status: status,
@@ -150,8 +169,9 @@ function fetchClaims(userId = "", status = "", submitDate = "") {
                       ${renderStatusBadge(item.Status)}
                     </td>
                     <td>
-                      <a class="hover-pointer btnDetailClaim">Detail</a>
-                      ${renderProcessLink(item.Status)}
+                      <a class="hover-pointer btnDetailClaim">Detail</a><br>
+                      ${renderDeleteLink(item.Status)}<br>
+                      ${renderProcessLink(item.Status)}<br>
                     </td>
                   </tr>`;
       });
@@ -184,6 +204,14 @@ function renderStatusBadge(status) {
   }
 }
 
+function renderDeleteLink(status) {
+  if (status == CLAIM_STATUS.PENDING) {
+    return `<a class="hover-pointer btnDeleteClaim">Delete</a>`;
+  } else {
+    return "";
+  }
+}
+
 function renderProcessLink(status) {
   const roles = getUserInfo().Roles;
 
@@ -199,6 +227,37 @@ function processClaim(claimId) {
     type: HTTP_METHOD.PUT,
     url: BASE_URL + CLAIM_API + `/${claimId}/process`,
     success: function (response) {
+      // Show alert
+      showAlert(
+        "#tblClaimsManagementContainer",
+        response.Message,
+        "success",
+        "prepend"
+      );
+
+      // Re-fetch claims
+      fetchClaims();
+    },
+    error: function (error) {
+      const errorResponse = error.responseJSON;
+      showAlert("#xxxxxxxxx", errorResponse.Message, "danger");
+    },
+  });
+}
+
+function deleteClaim(claimId) {
+  $.ajax({
+    type: HTTP_METHOD.DELETE,
+    url: BASE_URL + CLAIM_API + `/${claimId}`,
+    success: function (response) {
+      // Show alert
+      showAlert(
+        "#tblClaimsManagementContainer",
+        response.Message,
+        "success",
+        "prepend"
+      );
+
       // Re-fetch claims
       fetchClaims();
     },

@@ -39,7 +39,7 @@ namespace InsuranceClaimSystem.Repositories
                 }
             }
 
-            return await query.ToListAsync();
+            return await query.OrderByDescending(x => x.SubmitDate).ToListAsync();
         }
 
         public async Task<Claim> CreateClaimAsync(Claim claim)

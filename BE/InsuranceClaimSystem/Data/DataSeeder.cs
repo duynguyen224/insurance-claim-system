@@ -8,7 +8,8 @@ namespace InsuranceClaimSystem.Data
     {
         public static async Task SeedAsync(
             UserManager<AppUser> userManager,
-            RoleManager<IdentityRole> roleManager)
+            RoleManager<IdentityRole> roleManager,
+            AppDbContext context)
         {
             // Define roles
             var roles = new[] { Roles.ROLE_ADMIN, Roles.ROLE_USER };
@@ -45,6 +46,7 @@ namespace InsuranceClaimSystem.Data
 
             // Create User
             string[] userEmails = { "user01@gmail.com", "user02@gmail.com", "user03@gmail.com" };
+            ClaimStatus[] claimStatuses = { ClaimStatus.Pending, ClaimStatus.Approved, ClaimStatus.Rejected };
             foreach (var userEmail in userEmails)
             {
                 if (await userManager.FindByEmailAsync(userEmail) == null)
@@ -62,9 +64,28 @@ namespace InsuranceClaimSystem.Data
                     if (createUserResult.Succeeded)
                     {
                         await userManager.AddToRoleAsync(normalUser, Roles.ROLE_USER);
+
+                        // Create 3 claims for the user with different statuses
+                        foreach (var status in claimStatuses)
+                        {
+                            var claim = new Claim
+                            {
+                                CustomerName = normalUser.FullName,
+                                Amount = new Random().Next(100, 10000), // Random claim amount
+                                Description = $"Description claim for {normalUser.FullName}",
+                                SubmitDate = DateTime.UtcNow,
+                                Status = status,
+                                UserId = normalUser.Id,
+                            };
+
+                            // Save the claim to the database
+                            context.Claims.Add(claim);
+                        }
                     }
                 }
             }
+
+            await context.SaveChangesAsync();
         }
     }
 }

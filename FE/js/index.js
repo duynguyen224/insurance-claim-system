@@ -55,29 +55,17 @@ jQuery(function ($) {
 
   // Select user
   $("#selectFilterUser").change(function () {
-    const userId = $(this).val();
-    const status = $("#selectFilterStatus").val();
-    const submitDate = $("#iptFilterDate").val();
-
-    fetchClaims(userId, status, submitDate);
+    fetchClaims();
   });
 
   // Select status
   $("#selectFilterStatus").change(function () {
-    const userId = "";
-    const status = $(this).val();
-    const submitDate = $("#iptFilterDate").val();
-
-    fetchClaims(userId, status, submitDate);
+    fetchClaims();
   });
 
   // Change submit date
   $("#iptFilterDate").change(function () {
-    const userId = "";
-    const status = $("#selectFilterStatus").val();
-    const submitDate = $(this).val();
-
-    fetchClaims(userId, status, submitDate);
+    fetchClaims();
   });
 
   // Btn Process claim
@@ -191,7 +179,7 @@ function initUI() {
   fetchUsers();
 }
 
-function fetchClaims(userId = "", status = "", submitDate = "") {
+function fetchClaims() {
   // If anonymous user, stop here
   let token = localStorage.getItem("token");
   token = JSON.parse(token);
@@ -200,9 +188,9 @@ function fetchClaims(userId = "", status = "", submitDate = "") {
   }
 
   const request = {
-    UserId: userId,
-    Status: status,
-    SubmitDate: submitDate,
+    UserId: $("#selectFilterUser").val(),
+    Status: $("#selectFilterStatus").val(),
+    SubmitDate: $("#iptFilterDate").val(),
   };
 
   // Convert the request object into query string parameters

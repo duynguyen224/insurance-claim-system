@@ -76,8 +76,9 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
     var userManager = services.GetRequiredService<UserManager<AppUser>>();
     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+    var context = services.GetRequiredService<AppDbContext>();
 
-    await DataSeeder.SeedAsync(userManager, roleManager);
+    await DataSeeder.SeedAsync(userManager, roleManager, context);
 }
 
 // Configure the HTTP request pipeline.

@@ -21,7 +21,7 @@ namespace InsuranceClaimSystem.Repositories.Claim
             // Filter by UserId if provided
             if (!string.IsNullOrEmpty(request.UserId))
             {
-                query = query.Where(c => !string.IsNullOrWhiteSpace(c.UserId) && c.UserId.Equals(request.UserId));
+                query = query.Where(c => c.UserId == request.UserId);
             }
 
             // Filter by Status if provided

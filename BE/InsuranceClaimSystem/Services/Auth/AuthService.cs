@@ -78,9 +78,9 @@ namespace InsuranceClaimSystem.Services.Auth
             // User claims
             var claims = new List<SecurityClaim>
             {
-                new SecurityClaim(JwtRegisteredClaimNames.Sub, user.UserName),
+                new SecurityClaim(ClaimTypes.NameIdentifier, user.Id),
+                new SecurityClaim(JwtRegisteredClaimNames.Sub, user.Email),
                 new SecurityClaim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new SecurityClaim(ClaimTypes.NameIdentifier, user.Id)
             };
 
             // Add role claims

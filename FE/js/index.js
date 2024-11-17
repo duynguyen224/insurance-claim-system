@@ -2,16 +2,20 @@ jQuery(function ($) {
   const $sectionLogin = $("#sectionLogin");
   const $sectionSendClaim = $("#sectionSendClaim");
   const $sectionClaimManagement = $("#sectionClaimManagement");
+  const $sectionIntro = $("#sectionIntro");
 
   initUI();
 
   // Btn Login
   $("#btnLogin").click(function () {
+    $sectionSendClaim.hide();
+    $sectionIntro.hide();
     $sectionLogin.show();
   });
 
   $("#btnCloseLogin").click(function () {
     $sectionLogin.hide();
+    $sectionIntro.show();
   });
 
   // Btn Logout
@@ -22,11 +26,22 @@ jQuery(function ($) {
 
   // Btn Send claim
   $("#btnSendClaim").click(function () {
+    $sectionLogin.hide();
+    $sectionIntro.hide();
     $sectionSendClaim.show();
   });
 
   $("#btnCloseSendClaim").click(function () {
     $sectionSendClaim.hide();
+
+    // If user is logged in, do nothing
+    const userInfo = getUserInfo();
+    if (userInfo != null) {
+      return;
+    }
+
+    // Anonymous user
+    $sectionIntro.show();
   });
 
   // Btn Claim management
@@ -69,7 +84,7 @@ jQuery(function ($) {
   $(document).on("click", ".btnProcessClaim", function () {
     if (
       confirm(
-        "The claim will be randomly approved or rejected based on a 50/50 probability. \n Do you want to continue?"
+        "The claim will be randomly approved or rejected based on a 50/50 probability.\nDo you want to continue?"
       )
     ) {
       const claimId = $(this).closest("tr").attr("data-claim-id");
@@ -107,6 +122,18 @@ jQuery(function ($) {
 
     autofillForm("#formUpdateClaim", formData);
   });
+
+  // Btn login here
+  $("#btnLoginHere").click(function () {
+    $sectionLogin.show();
+    $sectionIntro.hide();
+  });
+
+  // Btn file claim here
+  $("#btnFileClaimHere").click(function () {
+    $sectionSendClaim.show();
+    $sectionIntro.hide();
+  });
 });
 
 function reloadWindow() {
@@ -124,16 +151,30 @@ function clearLocalStorage() {
 }
 
 function initUI() {
+  const $sectionLogin = $("#sectionLogin");
+  const $sectionSendClaim = $("#sectionSendClaim");
+  const $sectionClaimManagement = $("#sectionClaimManagement");
+  const $sectionIntro = $("#sectionIntro");
+
   const userInfo = getUserInfo();
 
   if (userInfo == null) {
+    $sectionIntro.show();
+    $sectionSendClaim.hide();
     return;
   }
 
   // Hide element
   $("#btnLogin").hide();
-  if (!userInfo.Roles.includes(ROLE_ADMIN)) {
+
+  if (userInfo.Roles.includes(ROLE_USER)) {
     $("#selectFilterUserContainer").hide();
+  }
+
+  if (userInfo.Roles.includes(ROLE_ADMIN)) {
+    $("#btnSendClaim").hide();
+    $("#sectionSendClaim").hide();
+    $("#sectionClaimManagement").show();
   }
 
   // Show element
@@ -272,7 +313,9 @@ function renderStatusBadge(status) {
 }
 
 function renderDeleteLink(status) {
-  if (status == CLAIM_STATUS.PENDING) {
+  const roles = getUserInfo().Roles;
+
+  if (status == CLAIM_STATUS.PENDING && roles.includes(ROLE_USER)) {
     return `<a class="hover-pointer btnDeleteClaim">Delete</a><br>`;
   }
 

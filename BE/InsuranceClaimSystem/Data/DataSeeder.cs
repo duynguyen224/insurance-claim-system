@@ -28,7 +28,7 @@ namespace InsuranceClaimSystem.Data
             {
                 var adminUser = new AppUser
                 {
-                    FullName = "Duy Admin",
+                    FullName = "Admin",
                     UserName = "admin",
                     Email = adminEmail,
                     EmailConfirmed = true

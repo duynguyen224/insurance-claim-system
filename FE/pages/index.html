@@ -20,8 +20,8 @@
       </div>
 
       <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-        <li><a class="nav-link px-2 link-dark hover-pointer" id="btnSendClaim">Send claim</a></li>
-        <li><a class="nav-link px-2 link-dark hover-pointer" id="btnClaimManagement" style="display: none;">Claims management</a></li>
+        <li><a href="#sectionSendClaim" class="nav-link px-2 link-dark hover-pointer" id="btnSendClaim">Send claim</a></li>
+        <li><a href="#sectionClaimManagement" class="nav-link px-2 link-dark hover-pointer" id="btnClaimManagement" style="display: none;">Claims management</a></li>
       </ul>
 
       <div class="col-md-3 text-end">
@@ -34,7 +34,7 @@
     </header>
 
     <!-- Section login -->
-    <section id="sectionLogin" style="display: none;">
+    <section id="sectionLogin" style="display: none;" class="mb-5">
       <div class="d-flex justify-content-center">
         <div class="card w-50 shadow-sm">
           <div class="card-header text-center fw-bold fs-3 position-relative">
@@ -60,12 +60,22 @@
       </div>
     </section>
 
+    <section id="sectionIntro" class="mb-5" style="display: none;">
+      <h2>Welcome to the Insurance Claim System</h2>
+      <p class="intro-message">
+        - This system allows you to submit insurance claims online. <br>
+        - You can track the status and manage your claims if you have an account. <br>
+        - Alternatively, you can submit claims as an anonymous user.<br>
+        - <a href="#" id="btnLoginHere">Log in here</a> or <a href="#" id="btnFileClaimHere">file a claim as an anonymous user here</a>.
+      </p>
+    </section>
+
     <!-- Section Send claim -->
-    <section id="sectionSendClaim">
-      <div class="d-flex justify-content-center mt-5">
+    <section id="sectionSendClaim" class="mb-5">
+      <div class="d-flex justify-content-center">
         <div class="card w-50 shadow-sm">
           <div class="card-header text-center fw-bold fs-3 position-relative">
-            Send claim
+            Claim Form
             <button type="button" id="btnCloseSendClaim" class="btn-close position-absolute fs-5 top-0 end-0 me-2 mt-3"></button>
           </div>
           <div class="card-body">
@@ -174,7 +184,6 @@
 
 
   <!-- Modal update claim -->
-  <!-- Modal -->
   <div class="modal fade" id="modalUpdateClaim" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -211,7 +220,7 @@
   <script type="text/javascript" src="/libs/jquery/jquery.min.js"></script>
   <script type="text/javascript" src="/libs/jquery-validation/jquery-validation.js"></script>
   <script type="text/javascript" src="/js/common.js"></script>
-  <script type="text/javascript" src="/js/home.js"></script>
+  <script type="text/javascript" src="/js/index.js"></script>
   <script type="text/javascript" src="/js/form-login.js"></script>
   <script type="text/javascript" src="/js/form-send-claim.js"></script>
   <script type="text/javascript" src="/js/form-update-claim.js"></script>

@@ -1,4 +1,4 @@
-﻿namespace InsuranceClaimSystem.DTOs.Claim.Request
+﻿namespace InsuranceClaimSystem.DTOs.Claim
 {
     /// <summary>
     /// The object request to filter claims

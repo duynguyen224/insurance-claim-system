@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace InsuranceClaimSystem.DTOs.Claim.Request
+namespace InsuranceClaimSystem.DTOs.Claim
 {
     /// <summary>
     /// The object request to create a new claim

@@ -1,4 +1,4 @@
-﻿using InsuranceClaimSystem.DTOs.Claim.Request;
+﻿using InsuranceClaimSystem.DTOs.Claim;
 using InsuranceClaimSystem.Services.Claim;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

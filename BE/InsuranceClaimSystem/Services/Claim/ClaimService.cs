@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
 using InsuranceClaimSystem.DTOs;
-using InsuranceClaimSystem.DTOs.Claim.Request;
-using InsuranceClaimSystem.DTOs.Claim.Response;
+using InsuranceClaimSystem.DTOs.Claim;
 using InsuranceClaimSystem.Models;
-using InsuranceClaimSystem.Repositories;
+using InsuranceClaimSystem.Repositories.Claim;
 using InsuranceClaimSystem.Services.User;
 using ClaimModel = InsuranceClaimSystem.Models.Claim;
 

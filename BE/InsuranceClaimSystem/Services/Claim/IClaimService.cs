@@ -1,6 +1,5 @@
 ﻿using InsuranceClaimSystem.DTOs;
-using InsuranceClaimSystem.DTOs.Claim.Request;
-using InsuranceClaimSystem.DTOs.Claim.Response;
+using InsuranceClaimSystem.DTOs.Claim;
 
 namespace InsuranceClaimSystem.Services.Claim
 {

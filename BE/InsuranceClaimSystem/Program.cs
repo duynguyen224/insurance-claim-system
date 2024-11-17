@@ -3,7 +3,7 @@ using InsuranceClaimSystem.Extensions;
 using InsuranceClaimSystem.Mappings;
 using InsuranceClaimSystem.Middlewares;
 using InsuranceClaimSystem.Models;
-using InsuranceClaimSystem.Repositories;
+using InsuranceClaimSystem.Repositories.Claim;
 using InsuranceClaimSystem.Services.Auth;
 using InsuranceClaimSystem.Services.Claim;
 using InsuranceClaimSystem.Services.User;

@@ -1,6 +1,6 @@
 ﻿using InsuranceClaimSystem.Models;
 
-namespace InsuranceClaimSystem.DTOs.Claim.Response
+namespace InsuranceClaimSystem.DTOs.Claim
 {
     /// <summary>
     /// The claim response

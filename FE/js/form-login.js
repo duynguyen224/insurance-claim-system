@@ -1,23 +1,13 @@
 jQuery(function ($) {
   $("#formLogin").validate({
     rules: {
-      email: {
+      Email: {
         required: true,
         email: true,
       },
-      password: {
+      Password: {
         required: true,
         minlength: 6,
-      },
-    },
-    messages: {
-      email: {
-        required: "Please enter your email address",
-        email: "Please enter a valid email address",
-      },
-      password: {
-        required: "Please enter your password",
-        minlength: "Your password must be at least 6 characters long",
       },
     },
     submitHandler: function (form) {
@@ -31,12 +21,25 @@ jQuery(function ($) {
         url: BASE_URL + AUTH_API,
         data: JSON.stringify(formData),
         success: function (response) {
-          console.log(response);
+          // Show success alert
           showAlert("#formLogin", response.Message, "success");
+
+          // Save data to local storage
+          const data = response.Data;
+          const userInfo = data.User;
+          const token = data.Token;
+          localStorage.setItem("userInfo", JSON.stringify(userInfo));
+          localStorage.setItem("token", JSON.stringify(token));
+
+          // Reload window
+          setTimeout(() => {
+            reloadWindow()
+          }, 4000);
         },
         error: function (error) {
-          console.log(error.responseJSON.Message)
-          showAlert("#formLogin", error.responseJSON.Message, "danger");
+          const errorResponse = error.responseJSON;
+          showServerValidationErrors('#formLogin', errorResponse.Errors);
+          showAlert("#formLogin", errorResponse.Message, "danger");
         },
       });
     },

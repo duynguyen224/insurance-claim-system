@@ -20,78 +20,154 @@
       </div>
 
       <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-        <li><a href="#" class="nav-link px-2 link-dark btnMakeClaim">Send claim</a></li>
-        <li><a href="#" class="nav-link px-2 link-dark btnMyClaim">My claims</a></li>
-        <li><a href="#" class="nav-link px-2 link-dark btnMyClaim">Claims management</a></li>
+        <li><a class="nav-link px-2 link-dark hover-pointer" id="btnSendClaim">Send claim</a></li>
+        <li><a class="nav-link px-2 link-dark hover-pointer" id="btnClaimManagement" style="display: none;">Claims management</a></li>
       </ul>
 
       <div class="col-md-3 text-end">
         <div class="d-flex justify-content-end align-items-center gap-2">
-          <span>Hello, Bro</span>
-          <a href="#sectionLogin" type="button" class="btn btn-outline-primary me-2 btnLogin">Login</a>
+          Hello, <span id="txtUserName">anonymous</span>
+          <a href="#sectionLogin" type="button" class="btn btn-outline-primary me-2" id="btnLogin">Login</a>
+          <a type="button" class="btn btn-outline-primary me-2" id="btnLogout" style="display: none;">Logout</a>
         </div>
       </div>
     </header>
 
     <!-- Section login -->
-    <section id="sectionLogin" class="d-flex justify-content-center">
-      <div class="card w-50 shadow-sm">
-        <div class="card-header text-center fw-bold fs-3">
-          Login
-        </div>
-        <div class="card-body">
-          <form id="formLogin">
-            <div class="mb-3">
-              <label for="email" class="form-label">Email</label>
-              <input type="email" class="form-control" id="email" name="email">
-            </div>
-            <div class="mb-3">
-              <label for="password" class="form-label">Password</label>
-              <input type="password" class="form-control" id="password" name="password">
-            </div>
-            <div class="text-center">
-              <button type="submit" class="btn btn-primary">Login</button>
-            </div>
-          </form>
+    <section id="sectionLogin" style="display: none;">
+      <div class="d-flex justify-content-center">
+        <div class="card w-50 shadow-sm">
+          <div class="card-header text-center fw-bold fs-3 position-relative">
+            Login
+            <button type="button" id="btnCloseLogin" class="btn-close position-absolute fs-5 top-0 end-0 me-2 mt-3"></button>
+          </div>
+          <div class="card-body">
+            <form id="formLogin">
+              <div class="mb-3">
+                <label for="email" class="form-label">Email <span class="text-danger">(*)</span></label>
+                <input type="email" class="form-control" id="email" name="Email" placeholder="Enter your email">
+              </div>
+              <div class="mb-3">
+                <label for="password" class="form-label">Password <span class="text-danger">(*)</span></label>
+                <input type="password" class="form-control" id="password" name="Password" placeholder="Enter your password">
+              </div>
+              <div class="text-center">
+                <button type="submit" class="btn btn-primary">Login</button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </section>
 
     <!-- Section Send claim -->
-    <section id="sectionMakeClaim" class="d-flex justify-content-center mt-5">
-      <div class="card w-50 shadow-sm">
-        <div class="card-header text-center fw-bold fs-3">
-          Send claim
+    <section id="sectionSendClaim">
+      <div class="d-flex justify-content-center mt-5">
+        <div class="card w-50 shadow-sm">
+          <div class="card-header text-center fw-bold fs-3 position-relative">
+            Send claim
+            <button type="button" id="btnCloseSendClaim" class="btn-close position-absolute fs-5 top-0 end-0 me-2 mt-3"></button>
+          </div>
+          <div class="card-body">
+            <form id="formSendClaim">
+              <div class="mb-3">
+                <label for="customerName" class="form-label">Customer name <span class="text-danger">(*)</span></label>
+                <input type="text" class="form-control" name="CustomerName" id="customerName" placeholder="Enter your name">
+              </div>
+              <div class="mb-3">
+                <label for="amount" class="form-label">Amount <span class="text-danger">(*)</span></label>
+                <input type="text" class="form-control" name="Amount" id="amount" placeholder="Enter claim amount">
+              </div>
+              <div class="mb-3">
+                <label for="description" class="form-label">Description <span class="text-danger">(*)</span></label>
+                <textarea class="form-control" rows="6" name="Description" id="description" placeholder="Enter description"></textarea>
+              </div>
+              <div class="text-center">
+                <button type="submit" class="btn btn-primary">Send</button>
+              </div>
+            </form>
+          </div>
         </div>
-        <div class="card-body">
-          <form id="formSendClaim">
-            <div class="mb-3">
-              <label for="exampleInputEmail1" class="form-label">Email address</label>
-              <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-            </div>
-            <div class="mb-3">
-              <label for="exampleInputPassword1" class="form-label">Password</label>
-              <input type="password" class="form-control" id="exampleInputPassword1">
-            </div>
-            <div class="text-center">
-              <button type="submit" class="btn btn-primary">Send</button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </section>
-
-    <!-- Section my claims -->
-    <section id="sectionMyClaims">
-      <div class="text-center">
-        <h3>My claims</h3>
       </div>
     </section>
 
     <!-- Section claims management -->
-    <section id="sectionClaimManagement">
-      <div class="text-center">
-        <h3>Claims management</h3>
+    <section id="sectionClaimManagement" style="display: none;" class="mb-5">
+      <div class="d-flex justify-content-center mt-5">
+        <div class="card w-100 shadow-sm">
+          <div class="card-header text-center fw-bold fs-3 position-relative">
+            Claims management
+            <button type="button" id="btnCloseClaimManagement" class="btn-close position-absolute fs-5 top-0 end-0 me-2 mt-3"></button>
+          </div>
+          <div class="card-body">
+            <div class="row pb-3 ">
+              <div class="col-3">
+                <label for="exampleInputEmail1" class="form-label">Select a user</label>
+                <select class="form-select" id="selectFilterUser">
+                  <option selected value="">All</option>
+                  <option value="1">One</option>
+                  <option value="2">Two</option>
+                  <option value="3">Three</option>
+                </select>
+              </div>
+              <div class="col-3">
+                <label for="exampleInputEmail1" class="form-label">Select status</label>
+                <select class="form-select" id="selectFilterStatus">
+                  <option selected value="">All</option>
+                  <option value="pending">Pending</option>
+                  <option value="approved">Approved</option>
+                  <option value="rejected">Rejected</option>
+                </select>
+              </div>
+              <div class="col-3">
+                <label for="exampleInputEmail1" class="form-label">Submit date</label>
+                <input type="date" class="form-control" id="iptFilterDate">
+              </div>
+            </div>
+
+            <div class="pt-5">
+              <table id="tblClaimsManagement" class="table table-striped table-bordered">
+                <thead>
+                  <tr>
+                    <th width="5%">#</th>
+                    <th width="20%">Customer name</th>
+                    <th width="10%" class="text-end">Amount</th>
+                    <th>Description</th>
+                    <th width="15%">Submit date</th>
+                    <th width="10%">Status</th>
+                    <th width="10%">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- <tr>
+                    <td colspan="100" class="text-danger">No data</td>
+                  </tr> -->
+
+                  <!-- <tr>
+                    <th>1</th>
+                    <td>Duy Nguyen</td>
+                    <td class="text-end">9999</td>
+                    <td>
+                      <textarea readonly rows="3" cols="40" class="text-start form-control">hello</textarea>
+                    </td>
+                    <td>
+                      2024-09-09
+                    </td>
+                    <td>
+                      <span class="badge rounded-pill text-bg-info">Pending</span>
+                      <span class="badge rounded-pill text-bg-success">Accepted</span>
+                      <span class="badge rounded-pill text-bg-danger">Rejected</span>
+                    </td>
+                    <td>
+                      <a class="hover-pointer btnDetailClaim">Detail</a>
+                      <a class="hover-pointer btnProcessClaim">Process</a>
+                    </td>
+                  </tr> -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   </div>
@@ -101,7 +177,6 @@
   <script type="text/javascript" src="/libs/jquery-validation/jquery-validation.js"></script>
   <script type="text/javascript" src="/js/common.js"></script>
   <script type="text/javascript" src="/js/home.js"></script>
-
   <script type="text/javascript" src="/js/form-login.js"></script>
   <script type="text/javascript" src="/js/form-send-claim.js"></script>
 </body>

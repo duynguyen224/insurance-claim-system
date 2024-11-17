@@ -4,6 +4,18 @@
   padding: 0;
 }
 
-label.error{
+label.error {
   color: red;
+}
+
+input[readonly] {
+  background-color: #eee;
+}
+
+.hover-pointer {
+  cursor: pointer;
+}
+
+.hover-pointer:hover {
+  color: rgb(38, 0, 255) !important;
 }

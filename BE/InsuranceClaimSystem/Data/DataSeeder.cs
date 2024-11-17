@@ -51,7 +51,7 @@ namespace InsuranceClaimSystem.Data
                 {
                     var normalUser = new AppUser
                     {
-                        FullName = "User " + userEmail,
+                        FullName = userEmail.Split("@")[0],
                         UserName = userEmail,
                         Email = userEmail,
                         EmailConfirmed = true

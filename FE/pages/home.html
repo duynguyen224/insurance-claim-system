@@ -101,13 +101,13 @@
           </div>
           <div class="card-body">
             <div class="row pb-3 ">
-              <div class="col-3">
+              <div class="col-3" id="selectFilterUserContainer">
                 <label for="exampleInputEmail1" class="form-label">Select a user</label>
                 <select class="form-select" id="selectFilterUser">
-                  <option selected value="">All</option>
+                  <!-- <option selected value="">All</option>
                   <option value="1">One</option>
                   <option value="2">Two</option>
-                  <option value="3">Three</option>
+                  <option value="3">Three</option> -->
                 </select>
               </div>
               <div class="col-3">
@@ -172,6 +172,41 @@
     </section>
   </div>
 
+
+  <!-- Modal update claim -->
+  <!-- Modal -->
+  <div class="modal fade" id="modalUpdateClaim" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form id="formUpdateClaim" novalidate="novalidate">
+          <div class="modal-body">
+            <input type="hidden" name="HiddenClaimId" id="iptClaimId">
+            <div class="mb-3">
+              <label for="customerName" class="form-label">Customer name <span class="text-danger">(*)</span></label>
+              <input type="text" class="form-control" name="CustomerName" id="iptCustomerName" placeholder="Enter your name" readonly="">
+            </div>
+            <div class="mb-3">
+              <label for="amount" class="form-label">Amount <span class="text-danger">(*)</span></label>
+              <input type="text" class="form-control" name="Amount" id="iptAmount" placeholder="Enter claim amount">
+            </div>
+            <div class="mb-3">
+              <label for="description" class="form-label">Description <span class="text-danger">(*)</span></label>
+              <textarea class="form-control" rows="6" name="Description" id="iptDescription" placeholder="Enter description"></textarea>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Update</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
   <script type="text/javascript" src="/libs/bootstrap/bootstrap.min.js"></script>
   <script type="text/javascript" src="/libs/jquery/jquery.min.js"></script>
   <script type="text/javascript" src="/libs/jquery-validation/jquery-validation.js"></script>
@@ -179,6 +214,7 @@
   <script type="text/javascript" src="/js/home.js"></script>
   <script type="text/javascript" src="/js/form-login.js"></script>
   <script type="text/javascript" src="/js/form-send-claim.js"></script>
+  <script type="text/javascript" src="/js/form-update-claim.js"></script>
 </body>
 
 </html>

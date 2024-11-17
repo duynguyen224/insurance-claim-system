@@ -40,8 +40,11 @@ jQuery(function ($) {
 
   // Select user
   $("#selectFilterUser").change(function () {
-    alert("Get users not implemented");
-    $("#selectFilterUser").val("'");
+    const userId = $(this).val();
+    const status = $("#selectFilterStatus").val();
+    const submitDate = $("#iptFilterDate").val();
+
+    fetchClaims(userId, status, submitDate);
   });
 
   // Select status
@@ -81,6 +84,29 @@ jQuery(function ($) {
       deleteClaim(claimId);
     }
   });
+
+  // Btn Edit claim
+  $(document).on("click", ".btnEditClaim", function () {
+    // Open modal
+    $("#modalUpdateClaim").modal("show");
+
+    const claimId = $(this).closest("tr").attr("data-claim-id");
+    const customerName = $(this).closest("tr").attr("data-customer-name");
+    const amount = $(this).closest("tr").attr("data-amount");
+    const description = $(this).closest("tr").attr("data-description");
+
+    $("#iptClaimId").val(claimId);
+
+    // Bind data to modal
+    const formData = [
+      { name: "HiddenClaimId", value: claimId },
+      { name: "CustomerName", value: customerName },
+      { name: "Amount", value: amount },
+      { name: "Description", value: description },
+    ];
+
+    autofillForm("#formUpdateClaim", formData);
+  });
 });
 
 function reloadWindow() {
@@ -106,6 +132,9 @@ function initUI() {
 
   // Hide element
   $("#btnLogin").hide();
+  if (!userInfo.Roles.includes(ROLE_ADMIN)) {
+    $("#selectFilterUserContainer").hide();
+  }
 
   // Show element
   $("#btnLogout").show();
@@ -116,12 +145,15 @@ function initUI() {
 
   // Get data for Claims management
   fetchClaims();
+
+  // Fetch data select filter users
+  fetchUsers();
 }
 
 function fetchClaims(userId = "", status = "", submitDate = "") {
   // If anonymous user, stop here
-  let token = localStorage.getItem('token');
-  token = JSON.parse(token); 
+  let token = localStorage.getItem("token");
+  token = JSON.parse(token);
   if (isNullOrEmpty(token)) {
     return;
   }
@@ -153,7 +185,10 @@ function fetchClaims(userId = "", status = "", submitDate = "") {
       let html = "";
 
       claims.forEach((item, index) => {
-        html += `<tr data-claim-id="${item.Id}">
+        html += `<tr data-claim-id="${item.Id}" 
+                      data-customer-name="${item.CustomerName}" 
+                      data-amount="${item.Amount}" 
+                      data-description="${item.Description}">
                     <th>${++index}</th>
                     <td>${item.CustomerName}</td>
                     <td class="text-end">${item.Amount}</td>
@@ -169,15 +204,47 @@ function fetchClaims(userId = "", status = "", submitDate = "") {
                       ${renderStatusBadge(item.Status)}
                     </td>
                     <td>
-                      <a class="hover-pointer btnDetailClaim">Detail</a><br>
-                      ${renderDeleteLink(item.Status)}<br>
-                      ${renderProcessLink(item.Status)}<br>
+                      ${renderEditLink(item.Status)}
+                      ${renderDeleteLink(item.Status)}
+                      ${renderProcessLink(item.Status)}
                     </td>
                   </tr>`;
       });
 
       // Draw claims management table body
       $("#tblClaimsManagement tbody").html(html);
+    },
+    error: function (error) {
+      const errorResponse = error.responseJSON;
+      showAlert(
+        "#xxxxxxxxxxxxxxx",
+        errorResponse?.Message || "An error occurred",
+        "danger"
+      );
+    },
+  });
+}
+
+function fetchUsers() {
+  // If anonymous user, stop here
+  let token = localStorage.getItem("token");
+  token = JSON.parse(token);
+  if (isNullOrEmpty(token)) {
+    return;
+  }
+
+  $.ajax({
+    type: HTTP_METHOD.GET,
+    url: `${BASE_URL + USER_API}`,
+    success: function (response) {
+      const users = response.Data;
+
+      let options = `<option selected value="">All</option>`;
+      users.forEach(function (item) {
+        options += `<option value="${item.Id}">${item.FullName}</option>`;
+      });
+
+      $("#selectFilterUser").html(options);
     },
     error: function (error) {
       const errorResponse = error.responseJSON;
@@ -206,20 +273,30 @@ function renderStatusBadge(status) {
 
 function renderDeleteLink(status) {
   if (status == CLAIM_STATUS.PENDING) {
-    return `<a class="hover-pointer btnDeleteClaim">Delete</a>`;
-  } else {
-    return "";
+    return `<a class="hover-pointer btnDeleteClaim">Delete</a><br>`;
   }
+
+  return "";
 }
 
 function renderProcessLink(status) {
   const roles = getUserInfo().Roles;
 
   if (status == CLAIM_STATUS.PENDING && roles.includes(ROLE_ADMIN)) {
-    return `<a class="hover-pointer btnProcessClaim">Process</a>`;
-  } else {
-    return "";
+    return `<a class="hover-pointer btnProcessClaim">Process</a><br>`;
   }
+
+  return "";
+}
+
+function renderEditLink(status) {
+  const roles = getUserInfo().Roles;
+
+  if (status == CLAIM_STATUS.PENDING && roles.includes(ROLE_USER)) {
+    return `<a class="hover-pointer btnEditClaim">Edit</a><br>`;
+  }
+
+  return "";
 }
 
 function processClaim(claimId) {

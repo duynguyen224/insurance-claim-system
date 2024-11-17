@@ -96,6 +96,7 @@ namespace InsuranceClaimSystem.Controllers
         /// <response code="404">Claim not found</response>
         /// <response code="500">Internal server error</response>
         [HttpDelete("{id}")]
+        [Authorize(Roles = Constants.Roles.ROLE_USER)]
         public async Task<IActionResult> Delete([FromRoute] string id)
         {
             var res = await _claimService.DeleteClaimAsync(id);

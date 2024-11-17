@@ -49,6 +49,16 @@ namespace InsuranceClaimSystem.Services.Claim
 
         public async Task<ApiResponse<ClaimResponse>> CreateClaimAsync(UpSertClaimRequest request)
         {
+            // Admin can not create claim
+            var roles = _userService.GetRoles();
+            if (roles.Contains(Constants.Roles.ROLE_ADMIN))
+            {
+                return ApiResponse<ClaimResponse>.BuildErrorResponse(
+                    StatusCodes.Status403Forbidden,
+                    "You don't have permission to create claim."
+                );
+            }
+
             var claim = new ClaimModel
             {
                 CustomerName = request.CustomerName,

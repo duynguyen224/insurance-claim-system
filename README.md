@@ -112,10 +112,15 @@ This system provides the following functionalities:
 
 ```
   git clone https://github.com/duynguyen224/insurance-claim-system.git
-  cd .\BE\
 ```
 
 ### 2. Run the Back-End API
+
+- Go to BE directory
+
+```
+cd .\BE\
+```
 
 - Restore dependencies
 
@@ -147,10 +152,11 @@ After that
 # API Documentation
 
 > [!NOTE]
+> Make sure Back-End API is running<br>
 > Change the port with your API port<br>
 > http://localhost:<5071>/swagger/index.html
 
-Detail on <a href="http://localhost:5071/swagger/index.html" target="_blank">http://localhost:5071/swagger/index.html</a>
+Swagger UI: <a href="http://localhost:5071/swagger/index.html" target="_blank">http://localhost:5071/swagger/index.html</a>
 
 ### Auth
 

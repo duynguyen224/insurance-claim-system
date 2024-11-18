@@ -22,13 +22,20 @@ const CLAIM_STATUS = {
 };
 
 // ==================
-// == HTTP METHODS ==
+// == HTTP ==========
 // ==================
 const HTTP_METHOD = {
   GET: "GET",
   POST: "POST",
   PUT: "PUT",
   DELETE: "DELETE",
+};
+
+const HTTP_STATUS_CODE = {
+  BAD_REQUEST_400: 400,
+  UNAUTHORIZED_401: 401,
+  FORBIDDEN_403: 403,
+  INTERNAL_SERVER_ERROR_500: 500,
 };
 
 // ================
@@ -49,12 +56,24 @@ $.ajaxSetup({
 
 // Handle global ajax error
 $(document).ajaxError(function (event, jqxhr, settings, exception) {
-  if (jqxhr.status === 401) {
+  if (jqxhr.status == HTTP_STATUS_CODE.BAD_REQUEST_400) {
+    return;
+  } else if (jqxhr.status == HTTP_STATUS_CODE.UNAUTHORIZED_401) {
+    const invalidCredentialMessage = "Invalid credentials";
+    const jqxhrMessage = jqxhr.responseJSON.Message;
+
+    if (
+      !isNullOrEmpty(jqxhrMessage) &&
+      jqxhrMessage == invalidCredentialMessage
+    ) {
+      return;
+    }
+
     alert(`Token expired, please login again to continue.`);
     localStorage.removeItem("userInfo");
     localStorage.removeItem("token");
     reloadWindow();
-  } else if (jqxhr.status === 403) {
+  } else if (jqxhr.status == HTTP_STATUS_CODE.FORBIDDEN_403) {
     alert(`Sorry, you don't have permission to access this resource.`);
     localStorage.removeItem("userInfo");
     localStorage.removeItem("token");
@@ -96,10 +115,18 @@ function autofillForm(formId, data) {
   });
 }
 
-function showServerValidationErrors(formId, errors) {
+function showServerValidationErrors(formId, error) {
+  // If status code is not 400, do nothing
+  if (error.status != 400) {
+    return;
+  }
+
   // Clear previous error messages
   $(".error-message").remove();
+  $(".error").remove();
 
+  const errors = error.responseJSON.Errors;
+  console.log(errors)
   // Loop through errors and append messages below input fields
   Object.entries(errors).forEach(([fieldName, messages]) => {
     const field = $(`${formId} [name="${fieldName}"]`);

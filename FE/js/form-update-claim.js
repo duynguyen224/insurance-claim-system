@@ -18,7 +18,7 @@ jQuery(function ($) {
     submitHandler: function (form) {
       const formData = {
         customerName: $("#iptCustomerName").val(),
-        amount: $("#iptAmount").val(),
+        amount: !isNullOrEmpty($("#iptAmount").val()) ? $("#iptAmount").val() : -1,
         description: $("#iptDescription").val(),
       };
 
@@ -48,7 +48,7 @@ jQuery(function ($) {
         },
         error: function (error) {
           const errorResponse = error.responseJSON;
-          showServerValidationErrors("#formUpdateClaim", errorResponse.Errors);
+          showServerValidationErrors("#formUpdateClaim", error);
           showAlert("#formUpdateClaim", errorResponse.Message, "danger");
         },
       });

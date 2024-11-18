@@ -18,7 +18,7 @@ jQuery(function ($) {
     submitHandler: function (form) {
       const formData = {
         customerName: $("#customerName").val(),
-        amount: $("#amount").val(),
+        amount: !isNullOrEmpty($("#amount").val()) ? $("#amount").val() : -1,
         description: $("#description").val(),
       };
 
@@ -50,7 +50,7 @@ jQuery(function ($) {
         },
         error: function (error) {
           const errorResponse = error.responseJSON;
-          showServerValidationErrors("#formSendClaim", errorResponse.Errors);
+          showServerValidationErrors("#formSendClaim", error);
           showAlert("#formSendClaim", errorResponse.Message, "danger");
         },
       });

@@ -7,7 +7,6 @@ jQuery(function ($) {
       },
       Password: {
         required: true,
-        minlength: 6,
       },
     },
     submitHandler: function (form) {
@@ -38,7 +37,7 @@ jQuery(function ($) {
         },
         error: function (error) {
           const errorResponse = error.responseJSON;
-          showServerValidationErrors('#formLogin', errorResponse.Errors);
+          showServerValidationErrors('#formLogin', error);
           showAlert("#formLogin", errorResponse.Message, "danger");
         },
       });

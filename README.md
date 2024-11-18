@@ -234,3 +234,22 @@ Within the single project, the components are logically grouped into folders:
 # Challenges and Decisions
 
 # Screenshot
+
+## Back-End
+
+1. Swagger UI
+   ![alt text](image.png)
+
+## Front-End
+
+1. Home Page
+   ![alt text](image-1.png)
+
+1. Login
+   ![alt text](image-2.png)
+
+1. Claim Form
+   ![alt text](image-3.png)
+
+1. Claim Management
+   ![alt text](image-4.png)

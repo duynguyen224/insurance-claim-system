@@ -238,18 +238,18 @@ Within the single project, the components are logically grouped into folders:
 ## Back-End
 
 1. Swagger UI
-   ![alt text](image.png)
+   ![screenshot_swagger_ui.png](README_IMG/screenshot_swagger_ui.png)
 
 ## Front-End
 
 1. Home Page
-   ![alt text](image-1.png)
+   ![screenshot_home.png](README_IMG/screenshot_home.png)
 
 1. Login
-   ![alt text](image-2.png)
+   ![screenshot_login.png](README_IMG/screenshot_login.png)
 
 1. Claim Form
-   ![alt text](image-3.png)
+   ![screenshot_claim_form.png](README_IMG/screenshot_claim_form.png)
 
 1. Claim Management
-   ![alt text](image-4.png)
+   ![screenshot_claim_management.png](README_IMG/screenshot_claim_management.png)

@@ -1,30 +1,33 @@
 # Insurance Management System
 
-<!-- TABLE OF CONTENTS -->
-<details>
-  <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
-  </ol>
-</details>
+# Table of Contents
+
+- [About](#about)
+  - [User Account](#user-account)
+- [System Design and Analysis](#system-design-and-analysis)
+  - [Features](#features)
+  - [User Roles and Stories](#user-roles-and-stories)
+  - [Database Design](#database-design)
+- [Technologies](#technologies)
+- [How to Run This Project](#how-to-run-this-project)
+  - [Prerequisites](#prerequisites)
+  - [Steps](#steps)
+    - [1. Clone the repository](#1-clone-the-repository)
+    - [2. Run the Back-End API](#2-run-the-back-end-api)
+    - [3. Run the Front-End Application](#3-run-the-front-end-application)
+- [API Documentation](#api-documentation)
+  - [Auth](#auth)
+  - [Claims](#claims)
+  - [Users](#users)
+- [Testing](#testing)
+- [Code Structure and Design](#code-structure-and-design)
+  - [Key Design Principles](#key-design-principles)
+    - [RESTful API Design](#restful-api-design)
+    - [Service Layer](#service-layer)
+    - [Repository Pattern](#repository-pattern)
+  - [Folder Structure](#folder-structure)
+- [Challenges and Decisions](#challenges-and-decisions)
+- [Screenshot](#screenshot)
 
 # About
 

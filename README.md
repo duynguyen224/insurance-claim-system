@@ -111,7 +111,7 @@ This system provides the following functionalities:
 ### 1. Clone the repository
 
 ```
-  git clone https://github.com/duynguyen224/insurance-claim-system.git
+git clone https://github.com/duynguyen224/insurance-claim-system.git
 ```
 
 ### 2. Run the Back-End API
@@ -119,6 +119,7 @@ This system provides the following functionalities:
 - Go to BE directory
 
 ```
+cd .\insurance-claim-system\
 cd .\BE\
 ```
 

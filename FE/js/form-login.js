@@ -33,7 +33,7 @@ jQuery(function ($) {
           // Reload window
           setTimeout(() => {
             reloadWindow()
-          }, 4000);
+          }, 1000);
         },
         error: function (error) {
           const errorResponse = error.responseJSON;

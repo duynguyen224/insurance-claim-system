@@ -103,7 +103,11 @@ function showAlert(containerId, message, type, position = "append") {
   }
 
   // Hide
-  $(".alert").slideUp(4000);
+  if (type == "success") {
+    $(".alert").slideUp(3000);
+  } else if (type == "danger") {
+    $(".alert").slideUp(4000);
+  }
 }
 
 function autofillForm(formId, data) {
@@ -126,7 +130,7 @@ function showServerValidationErrors(formId, error) {
   $(".error").remove();
 
   const errors = error.responseJSON.Errors;
-  console.log(errors)
+  console.log(errors);
   // Loop through errors and append messages below input fields
   Object.entries(errors).forEach(([fieldName, messages]) => {
     const field = $(`${formId} [name="${fieldName}"]`);

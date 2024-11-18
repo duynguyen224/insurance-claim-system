@@ -128,8 +128,8 @@ dotnet run --project InsuranceClaimSystem
 
 After that
 
-- The API will be available at: <a href="http://localhost:5071" href="_blank">http://localhost:5071</a>
-- You can see the API documentation in <a href="http://localhost:5071/swagger/index.html" href="_blank">http://localhost:5071/swagger/index.html</a>
+- The API will be available at: <a href="http://localhost:5071" target="_blank">http://localhost:5071</a>
+- You can see the API documentation in <a href="http://localhost:5071/swagger/index.html" target="_blank">http://localhost:5071/swagger/index.html</a>
 
 ### 3. Run the Front-End Application
 

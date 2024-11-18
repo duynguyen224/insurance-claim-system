@@ -30,6 +30,15 @@
 
 Full-stack Developer Technical Assessment
 
+### User Account
+
+| Email              | Password    | Role  | Description |
+| :----------------- | :---------- | :---- | :---------- |
+| `admin@gmail.com`  | `Admin@123` | admin | Admin user  |
+| `user01@gmail.com` | `User@123`  | user  | Member user |
+| `user02@gmail.com` | `User@123`  | user  | Member user |
+| `user03@gmail.com` | `User@123`  | user  | Member user |
+
 # System Design and Analysis
 
 ## Features
@@ -117,15 +126,17 @@ dotnet restore
 dotnet run --project InsuranceClaimSystem
 ```
 
-- The API will be available at: http://localhost:5071
-- You can see the API documentation in http://localhost:5071/swagger/index.html
+After that
+
+- The API will be available at: <a href="http://localhost:5071" href="_blank">http://localhost:5071</a>
+- You can see the API documentation in <a href="http://localhost:5071/swagger/index.html" href="_blank">http://localhost:5071/swagger/index.html</a>
 
 ### 3. Run the Front-End Application
 
 - Open the /FE/pages/index.html file in a browser.
 - Ensure the back-end API is running for full functionality.
 
-> [!NOTE] <br>
+> [!NOTE]
 > Make sure to match your API port with BASE_URL in `/FE/js/common.js` in the FE project
 
 > `const BASE_URL = "http://localhost:5071/"; // /FE/js/common.js // Edit with your API port`
@@ -177,11 +188,11 @@ Within the single project, the components are logically grouped into folders:
 
 # API Documentation
 
-> [!NOTE]  
+> [!NOTE]
 > Change the port with your API port<br>
 > http://localhost:<5071>/swagger/index.html
 
-Detail on http://localhost:5071/swagger/index.html
+Detail on <a href="http://localhost:5071/swagger/index.html" target="_blank">http://localhost:5071/swagger/index.html</a>
 
 ### Auth
 

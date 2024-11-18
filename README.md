@@ -141,6 +141,48 @@ After that
 
 > `const BASE_URL = "http://localhost:5071/"; // /FE/js/common.js // Edit with your API port`
 
+# API Documentation
+
+> [!NOTE]
+> Change the port with your API port<br>
+> http://localhost:<5071>/swagger/index.html
+
+Detail on <a href="http://localhost:5071/swagger/index.html" target="_blank">http://localhost:5071/swagger/index.html</a>
+
+### Auth
+
+| Method | URL             | Description   | Role      |
+| :----: | :-------------- | :------------ | :-------- |
+|  GET   | /api/auth/login | Login an user | anonymous |
+
+### Claims
+
+| Method | URL                      | Description              | Role                   |
+| :----: | :----------------------- | :----------------------- | :--------------------- |
+|  GET   | /api/claims              | Retrieve all claims      | user, admin            |
+|  GET   | /api/claims/{id}         | Retrieve a claim #id     | anonymous, user, admin |
+|  POST  | /api/claims              | Create a new claim       | anonymous, user        |
+|  PUT   | /api/claims/{id}         | Update data in claim #id | user                   |
+|  PUT   | /api/claims/{id}/process | Process a claim #id      | admin                  |
+| DELETE | /api/claims/{id}         | Delete a claim #id       | user                   |
+
+### Users
+
+| Method | URL        | Description        | Role  |
+| :----: | :--------- | :----------------- | :---- |
+|  GET   | /api/users | Retrieve all users | admin |
+
+# Testing
+
+As I am not yet familiar with writing unit tests, I chose to manually test the system to ensure its functionality and reliability.
+
+Since unit testing was outside my expertise, I dedicated my time to developing the optional front-end application to enhance the overall project and demonstrate additional skills.
+
+As a next step, I plan to:
+
+- Learn how to write unit tests using testing frameworks like xUnit and MSTest.
+- Integrate unit tests and integration tests into my workflow for future projects to ensure robust and scalable systems.
+
 # Code Structure and Design
 
 The project follows the principles of clean architecture with a clear separation of concerns, even though all components are organized within a single project. This approach keeps the structure simple and manageable.
@@ -186,46 +228,6 @@ Within the single project, the components are logically grouped into folders:
 - **Mappings**: Contains mapper profiles to map between domain models and DTOs.
 - **Middlewares**: Handles global error, logging, ...
 
-# API Documentation
-
-> [!NOTE]
-> Change the port with your API port<br>
-> http://localhost:<5071>/swagger/index.html
-
-Detail on <a href="http://localhost:5071/swagger/index.html" target="_blank">http://localhost:5071/swagger/index.html</a>
-
-### Auth
-
-| Method | URL             | Description   | Role      |
-| :----: | :-------------- | :------------ | :-------- |
-|  GET   | /api/auth/login | Login an user | anonymous |
-
-### Claims
-
-| Method | URL                      | Description              | Role                   |
-| :----: | :----------------------- | :----------------------- | :--------------------- |
-|  GET   | /api/claims              | Retrieve all claims      | user, admin            |
-|  GET   | /api/claims/{id}         | Retrieve a claim #id     | anonymous, user, admin |
-|  POST  | /api/claims              | Create a new claim       | anonymous, user        |
-|  PUT   | /api/claims/{id}         | Update data in claim #id | user                   |
-|  PUT   | /api/claims/{id}/process | Process a claim #id      | admin                  |
-| DELETE | /api/claims/{id}         | Delete a claim #id       | user                   |
-
-### Users
-
-| Method | URL        | Description        | Role  |
-| :----: | :--------- | :----------------- | :---- |
-|  GET   | /api/users | Retrieve all users | admin |
-
-# Testing
-
-As I am not yet familiar with writing unit tests, I chose to manually test the system to ensure its functionality and reliability.
-
-Since unit testing was outside my expertise, I dedicated my time to developing the optional front-end application to enhance the overall project and demonstrate additional skills.
-
-As a next step, I plan to:
-
-- Learn how to write unit tests using testing frameworks like xUnit and MSTest.
-- Integrate unit tests and integration tests into my workflow for future projects to ensure robust and scalable systems.
-
 # Challenges and Decisions
+
+# Screenshot

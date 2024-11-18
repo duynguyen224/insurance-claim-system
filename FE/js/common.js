@@ -1,7 +1,7 @@
 // ================
 // == API ROUTES ==
 // ================
-const BASE_URL = "https://localhost:7139/"; // * Edit with your localhost port
+const BASE_URL = "http://localhost:5071/"; // * Edit with your port
 const AUTH_API = "api/auth/login";
 const CLAIM_API = "api/insurance-claims";
 const USER_API = "api/users";

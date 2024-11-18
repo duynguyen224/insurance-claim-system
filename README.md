@@ -30,41 +30,81 @@
 
 Full-stack Developer Technical Assessment
 
-# Features
+# System Design and Analysis
 
-- This system allows you to submit insurance claims online.
-- You can track the status and manage your claims if you have an account.
-- Alternatively, you can submit claims as an anonymous user.
-- Your claims will be processes with a 50/50 chance of - approval or rejection.
+## Features
 
-# System Analytics
+This system provides the following functionalities:
 
+- Allows users to submit insurance claims online.
+- Enables users with an account to track the status and manage their claims.
+- Supports anonymous claim submissions for users without an account.
+- Processes claims with a 50/50 chance of approval or rejection.
+
+## User Roles and Stories
+
+### Anonymous User
+
+- Submit an insurance claim online.
+- Check the status of their submitted claim.
+
+### Member User
+
+- Log in to the system.
+- Submit an insurance claim online.
+- View and manage their claim history.
+- Edit or delete a claim if it has not been processed yet.
+
+### Admin User
+
+- Log in to the system.
+- View and manage all claims in the system.
+- Process a claim with a 50/50 chance of approval or rejection.
+
+## Database Design
+
+### Claim Table
+
+| Column Name  | Data Type      | Constraints                       | Description                                                |
+| :----------- | :------------- | :-------------------------------- | :--------------------------------------------------------- |
+| Id           | GUID           | Primary Key, Auto-Generate        | Id of the claim                                            |
+| CustomerName | NVARCHAR(50)   | Not Null                          | Customer name that file the claim                          |
+| Amount       | DECIMAL(18, 2) | Not Null, Min 0.0, Max 2147483647 | Amount of the claim                                        |
+| Description  | NVARCHAR(255)  | Not Null                          | Description of the claim                                   |
+| SubmitDate   | DATETIME       | Not Null                          | Submit date of the claim                                   |
+| Status       | NVARCHAR(20)   | Not Null                          | Status of the claim (0: Pending, 1: Approved, 2; Rejected) |
+| UserId       | NVARCHAR(100)  | Nullable                          | Id of the user that file the claim                         |
 
 # Technologies
 
 - Back-end: C# with .NET Core (.NET 8)
+  - Entity Framework Core
+  - Identity Entity Framework Core
+  - Authentication JwtBearer
+  - Auto Mapper
 - Database: In-memory database
-- Front-end: HTML, CSS, jQuery
+- Front-end: HTML, CSS, JavaScript
+  - jQuery
+  - Bootstrap
+  - Jquery Validation
 
 # How to Run This Project
 
 ## Prerequisites
 
 - Install .NET 8 SDK
-- Install Visual Studio 2022 with the "ASP.NET and web development" workload.
 
 ## Steps
 
-1. Clone the repository
+### 1. Clone the repository
 
 ```
-  git clone <repository_url>
-  cd <project_directory>
+  git clone https://github.com/duynguyen224/insurance-claim-system.git
+  cd .\BE\
 ```
 
-2. Run the Back-End API
+### 2. Run the Back-End API
 
-- Open the project in Visual Studio.
 - Restore dependencies
 
 ```
@@ -74,15 +114,21 @@ dotnet restore
 - Start the project
 
 ```
-dotnet run
+dotnet run --project InsuranceClaimSystem
 ```
 
-- The API will be available at: https://localhost:<7139> or http://localhost:<7139>
+- The API will be available at: http://localhost:5071
+- You can see the API documentation in http://localhost:5071/swagger/index.html
 
-3. Run the Front-End Application
+### 3. Run the Front-End Application
 
-- Open the index.html file in a browser.
+- Open the /FE/pages/index.html file in a browser.
 - Ensure the back-end API is running for full functionality.
+
+> [!NOTE] <br>
+> Make sure to match your API port with BASE_URL in `/FE/js/common.js` in the FE project
+
+> `const BASE_URL = "http://localhost:5071/"; // /FE/js/common.js // Edit with your API port`
 
 # Code Structure and Design
 
@@ -117,7 +163,7 @@ The project follows the principles of clean architecture with a clear separation
 
 ## Folder Structure
 
-Within the single project, the classes are logically grouped into folders:
+Within the single project, the components are logically grouped into folders:
 
 - **Controllers**: Handle API routing and HTTP request/response processing.
 - **Services**: Contain the business logic and interact with repositories to fulfill API requests.
@@ -131,19 +177,40 @@ Within the single project, the classes are logically grouped into folders:
 
 # API Documentation
 
-Refer: https://github.com/ml-archive/readme/blob/master/Documentation/how-to-write-apis.md
+> [!NOTE]  
+> Change the port with your API port<br>
+> http://localhost:<5071>/swagger/index.html
 
-| Method | URL              | Description              |
-| :----: | :--------------- | :----------------------- |
-|  GET   | /api/claims      | Retrieve all claims      |
-|  GET   | /api/claims/{id} | Retrieve claim #id       |
-|  POST  | /api/claims      | Create a new claim       |
-|  PUT   | /api/claims/{id} | Update data in claim #id |
-| DELETE | /api/claims/{id} | Delete claim #id         |
+Detail on http://localhost:5071/swagger/index.html
+
+### Auth
+
+| Method | URL             | Description   | Role      |
+| :----: | :-------------- | :------------ | :-------- |
+|  GET   | /api/auth/login | Login an user | anonymous |
+
+### Claims
+
+| Method | URL                      | Description              | Role                   |
+| :----: | :----------------------- | :----------------------- | :--------------------- |
+|  GET   | /api/claims              | Retrieve all claims      | user, admin            |
+|  GET   | /api/claims/{id}         | Retrieve a claim #id     | anonymous, user, admin |
+|  POST  | /api/claims              | Create a new claim       | anonymous, user        |
+|  PUT   | /api/claims/{id}         | Update data in claim #id | user                   |
+|  PUT   | /api/claims/{id}/process | Process a claim #id      | admin                  |
+| DELETE | /api/claims/{id}         | Delete a claim #id       | user                   |
+
+### Users
+
+| Method | URL        | Description        | Role  |
+| :----: | :--------- | :----------------- | :---- |
+|  GET   | /api/users | Retrieve all users | admin |
 
 # Testing
 
-As I am not yet familiar with writing unit tests, I chose to manually test the system to ensure its functionality and reliability. Since unit testing was outside my expertise, I dedicated my time to developing the optional front-end application to enhance the overall project and demonstrate additional skills.
+As I am not yet familiar with writing unit tests, I chose to manually test the system to ensure its functionality and reliability.
+
+Since unit testing was outside my expertise, I dedicated my time to developing the optional front-end application to enhance the overall project and demonstrate additional skills.
 
 As a next step, I plan to:
 

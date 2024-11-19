@@ -161,13 +161,13 @@ Swagger UI: <a href="http://localhost:5071/swagger/index.html" target="_blank">h
 
 ### Auth
 
-| Method | URL             | Description   | Role      |
+| Method | URL             | Description   | Use by    |
 | :----: | :-------------- | :------------ | :-------- |
-|  GET   | /api/auth/login | Login an user | anonymous |
+|  POST  | /api/auth/login | Login an user | anonymous |
 
 ### Claims
 
-| Method | URL                      | Description              | Role                   |
+| Method | URL                      | Description              | Use by                 |
 | :----: | :----------------------- | :----------------------- | :--------------------- |
 |  GET   | /api/claims              | Retrieve all claims      | user, admin            |
 |  GET   | /api/claims/{id}         | Retrieve a claim #id     | anonymous, user, admin |
@@ -178,9 +178,9 @@ Swagger UI: <a href="http://localhost:5071/swagger/index.html" target="_blank">h
 
 ### Users
 
-| Method | URL        | Description        | Role  |
-| :----: | :--------- | :----------------- | :---- |
-|  GET   | /api/users | Retrieve all users | admin |
+| Method | URL        | Description        | Use by |
+| :----: | :--------- | :----------------- | :----- |
+|  GET   | /api/users | Retrieve all users | admin  |
 
 # Testing
 
@@ -237,8 +237,6 @@ Within the single project, the components are logically grouped into folders:
 - **Data**: Handles the database setup and configurations, including the DbContext class.
 - **Mappings**: Contains mapper profiles to map between domain models and DTOs.
 - **Middlewares**: Handles global error, logging, ...
-
-# Challenges and Decisions
 
 # Screenshot
 

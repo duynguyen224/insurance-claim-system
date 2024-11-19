@@ -53,7 +53,7 @@ namespace InsuranceClaimSystem.Controllers
         /// <summary>
         /// Create a new claim
         /// </summary>
-        /// <remarks>Create a new claim (anonymous and user role or admin role can perform this action)</remarks>
+        /// <remarks>Create a new claim (anonymous and user can perform this action)</remarks>
         /// <response code="201">Create claim successfully</response>
         /// <response code="400">Invalid request data</response>
         /// <response code="401">Unauthorized</response>
@@ -71,7 +71,7 @@ namespace InsuranceClaimSystem.Controllers
         /// Update claim
         /// </summary>
         /// <remarks>Update claim (only user that create the claim can perform this action)</remarks>
-        /// <response code="201">Update claim successfully</response>
+        /// <response code="200">Update claim successfully</response>
         /// <response code="400">Invalid request data</response>
         /// <response code="401">Unauthorized</response>
         /// <response code="403">Forbidden</response>
@@ -90,7 +90,7 @@ namespace InsuranceClaimSystem.Controllers
         /// Delete claim
         /// </summary>
         /// <remarks>Delete claim (only user that create the claim and admin can perform this action)</remarks>
-        /// <response code="201">Delete claim successfully</response>
+        /// <response code="200">Delete claim successfully</response>
         /// <response code="400">Invalid request data</response>
         /// <response code="401">Unauthorized</response>
         /// <response code="404">Claim not found</response>
@@ -108,7 +108,7 @@ namespace InsuranceClaimSystem.Controllers
         /// Process claim
         /// </summary>
         /// <remarks>Process claim (only admin can perform this action)</remarks>
-        /// <response code="201">Delete claim successfully</response>
+        /// <response code="200">Process claim successfully</response>
         /// <response code="400">Invalid request data</response>
         /// <response code="401">Unauthorized</response>
         /// <response code="403">Forbidden</response>

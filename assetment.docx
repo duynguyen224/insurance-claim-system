@@ -1,0 +1,74 @@
+Full-stack Developer Technical Assessment
+
+Instructions:
+- The purpose of this assessment is not only to see if you arrive at the correct solution but also to understand your thinking process and how you resolve issues.
+- You have 4 days to complete this task. Please submit your solution before 22 November
+- Clearly document your code and any assumptions you made.
+- Feel free to add comments to explain your thought process or decision-making.
+- You're encouraged to use resources like documentation or forums but please do not copy complete solutions.
+  
+ Problem: Insurance Claim System
+
+You are tasked with developing a simplified version of an Insurance Claim System that manages customer claims.
+
+The system should:
+1. Allow customers to file claims online.
+2. Store claims in a database.
+3. Process claims and assign them a status (e.g., Pending, Approved, Rejected).
+4. Provide an API to retrieve claims by their status.
+
+ Requirements:
+
+1. Claim Submission API:
+   - Create an endpoint where customers can submit claims.
+   - The claim should include the following:
+     - Claim ID (auto-generated)
+     - Customer Name
+     - Claim Amount
+     - Claim Description
+     - Claim Date (auto-generated)
+     - Claim Status (Pending by default)
+
+2. Claim Processing API:
+   - Another endpoint should process the claims by updating the status:
+     - Statuses: Pending, Approved, or Rejected
+     - Create logic that processes the claim and randomly approves or rejects it (50/50 chance).
+
+3. Retrieve Claims API:
+   - Create an endpoint to retrieve claims filtered by their status (e.g., Pending, Approved, Rejected).
+   
+4. Database:
+   - Use an in-memory database (or a real one, depending on your preference).
+   - Store the claims and their statuses.
+   
+
+ Technology Stack:
+- Back-end: C# with .NET Core
+- Database: In-memory database (or SQLite MySQL/PostgreSQL if you prefer)
+
+ What We're Looking For:
+1. Code Structure & Design:
+   - Clean, maintainable code with a clear separation of concerns.
+   - Proper use of object-oriented programming principles.
+   
+2. API Design:
+   - RESTful API principles.
+   - Consistent and well-structured endpoints.
+   
+3. Problem-solving Approach:
+   - How you handle challenges and the reasoning behind your decisions.
+   - How you deal with incomplete requirements or ambiguities.
+
+
+
+ Bonus (Optional):
+- Web Project: 
+   - Add a simple web front-end to allow customers to submit claims and view the status of their claims.
+   - You can use a basic framework like plain HTML, CSS and JS or Razor Pages for the web project.
+   - The front-end should communicate with the back-end APIs and display the relevant data (claim status, claim history, etc.).
+
+
+ Submission:
+- Push your code to a GitHub repository and share the link.
+- Provide a `README.md` file with instructions on how to run your project.
+- Include a section in the `README.md` explaining your thought process and any decisions or challenges you faced.
